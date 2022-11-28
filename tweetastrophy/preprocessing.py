@@ -3,24 +3,38 @@ import re
 
 from tweetastrophy.get_data import get_data
 
-data = get_data()
+train_data, test_data = get_data()
 
 ## KEYWORD HANDLING
 
-def preprocessing(data):
+def preprocessing(train_data):
     ### KEYWORDS
 
     # handling NaN in keyword
-    data["keyword"] = data["keyword"].fillna("")
+    train_data["keyword"] = train_data["keyword"].fillna("")
 
-    data["keyword"] = data['keyword'].str.replace("%20", " ")
+    train_data["keyword"] = train_data['keyword'].str.replace("%20", " ")
 
     # adding hashtags to keywords
-    data["keyword"] + data["text"].apply(lambda x: " ".join(re.findall("#(\w+)", x)).lower())
+    train_data["keyword"] + train_data["text"].apply(lambda x: " ".join(re.findall("#(\w+)", x)).lower())
+
+    #cleaning urls
+
+    train_data['text'] = train_data['text'].apply(lambda x: re.sub('((http|https)\:\/\/)?[a-zA-Z0-9\.\/\?\:@\-_=#]+\.([a-zA-Z]){2,6}([a-zA-Z0-9\.\&\/\?\:@\-_=#])*',
+                                                       '', x))
 
 
     ### TEXT
+    train_data['text'] = train_data['text'].apply(lambda x: x.lower())
 
-    data["punctuation"] = data["text"].apply(lambda sentence: "".join([char for char in sentence if char in string.punctuation]))
+    #strip data
+    train_data['text'] = train_data['text'].str.strip()
 
-    data["wordcount"] = data["text"].apply(lambda x: len(x.split()))
+    #remove digits
+    train_data['text'] = train_data['text'].apply(lambda x: ''.join(i for i in x if i not in string.digits))
+
+    #remove punctuations
+
+    train_data['text'] = train_data['text'].apply(lambda x: ''.join(i for i in x if i not in string.punctuation))
+
+    return train_data
