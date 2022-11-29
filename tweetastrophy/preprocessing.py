@@ -7,47 +7,56 @@ import re
 
 ## KEYWORD HANDLING
 
-def preprocessing(train_data):
+
+def preprocessing(df):
     ### KEYWORDS
 
     # handling NaN in keyword
-    train_data["keyword"] = train_data["keyword"].fillna("")
+    df["keyword"] = df["keyword"].fillna("")
 
-    train_data["keyword"] = train_data['keyword'].str.replace("%20", " ")
+    df["keyword"] = df['keyword'].str.replace("%20", " ")
 
     # adding hashtags to keywords
-    train_data['keyword'] = train_data["keyword"] + train_data["text"].apply(lambda x: " ".join(re.findall("#(\w+)", x)).lower())
+    df['keyword'] = df["keyword"] + df["text"].apply(lambda x: " ".join(re.findall("#(\w+)", x)).lower())
 
     ### TEXT
-    train_data['text'] = train_data['text'].apply(lambda x: x.lower())
+
+    # remove unreadable char
+
+
+    # lower case
+    df['text'] = df['text'].apply(lambda x: x.lower())
 
     #strip data
-    train_data['text'] = train_data['text'].str.strip()
+    df['text'] = df['text'].str.strip()
 
     #cleaning urls
-    train_data['text'] = train_data['text'].apply(lambda x: re.sub('((http|https)\:\/\/)?[a-zA-Z0-9\.\/\?\:@\-_=#]+\.([a-zA-Z]){2,6}([a-zA-Z0-9\.\&\/\?\:@\-_=#])*',
+    df['text'] = df['text'].apply(lambda x: re.sub('((http|https)\:\/\/)?[a-zA-Z0-9\.\/\?\:@\-_=#]+\.([a-zA-Z]){2,6}([a-zA-Z0-9\.\&\/\?\:@\-_=#])*',
                                                        '', x))
     #remove emails
-    train_data['text'] = train_data['text'].apply(lambda x: re.sub(r'([a-z0-9+._-]+@[a-z0-9+._-]+\.[a-z0-9+_-]+)',"", x))
+    df['text'] = df['text'].apply(lambda x: re.sub(r'([a-z0-9+._-]+@[a-z0-9+._-]+\.[a-z0-9+_-]+)',"", x))
 
     #clean username
-    train_data['text'] = train_data['text'].apply(lambda x: re.sub('@[^\s]+','', x))
+    df['text'] = df['text'].apply(lambda x: re.sub('@[^\s]+','', x))
 
     #remove digits
-    train_data['text'] = train_data['text'].apply(lambda x: ''.join(i for i in x if i not in string.digits))
+    df['text'] = df['text'].apply(lambda x: ''.join(i for i in x if i not in string.digits))
 
     #remove punctuations
-    train_data['text'] = train_data['text'].apply(lambda x: ''.join(i for i in x if i not in string.punctuation))
+    df['text'] = df['text'].apply(lambda x: ''.join(i for i in x if i not in string.punctuation))
 
-    return train_data
+    return df
 
 
 def tokenize_text(df, remove_stopwords=False):
 
     df['Tokenized'] = df['text'].apply(word_tokenize)
+    df['Tokenized'] = df['Tokenized'].apply(lambda x: [word.encode('ascii','ignore').decode('ascii')for word in x])
 
-    if remove_stopwords==True:
-        stop= stopwords.words('english')
-        df['Tokenized'].apply(lambda x: [i for i in x if i not in stop])
+    if remove_stopwords:
+        stop = stopwords.words('english')
+        df['Tokenized'] = df['Tokenized'].apply(lambda x: [i for i in x if i not in stop])
+
+        return df
 
     return df
