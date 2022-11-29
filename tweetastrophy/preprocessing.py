@@ -25,12 +25,14 @@ def preprocessing(train_data):
                                                        '', x))
     #remove emails
     train_data['text'] = train_data['text'].apply(lambda x: re.sub(r'([a-z0-9+._-]+@[a-z0-9+._-]+\.[a-z0-9+_-]+)',"", x))
-    #remove digits
 
+    #clean username
+    train_data['text'] = train_data['text'].apply(lambda x: re.sub('@[^\s]+','', x))
+
+    #remove digits
     train_data['text'] = train_data['text'].apply(lambda x: ''.join(i for i in x if i not in string.digits))
 
     #remove punctuations
-
     train_data['text'] = train_data['text'].apply(lambda x: ''.join(i for i in x if i not in string.punctuation))
 
     return train_data
