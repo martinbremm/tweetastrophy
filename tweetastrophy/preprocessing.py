@@ -23,8 +23,10 @@ def preprocessing(train_data):
     #cleaning urls
     train_data['text'] = train_data['text'].apply(lambda x: re.sub('((http|https)\:\/\/)?[a-zA-Z0-9\.\/\?\:@\-_=#]+\.([a-zA-Z]){2,6}([a-zA-Z0-9\.\&\/\?\:@\-_=#])*',
                                                        '', x))
-
+    #remove emails
+    train_data['text'] = train_data['text'].apply(lambda x: re.sub(r'([a-z0-9+._-]+@[a-z0-9+._-]+\.[a-z0-9+_-]+)',"", x))
     #remove digits
+
     train_data['text'] = train_data['text'].apply(lambda x: ''.join(i for i in x if i not in string.digits))
 
     #remove punctuations
