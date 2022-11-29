@@ -1,3 +1,7 @@
+from nltk.tokenize import word_tokenize
+from nltk.corpus import stopwords
+
+
 import string
 import re
 
@@ -36,3 +40,14 @@ def preprocessing(train_data):
     train_data['text'] = train_data['text'].apply(lambda x: ''.join(i for i in x if i not in string.punctuation))
 
     return train_data
+
+
+def tokenize_text(df, remove_stopwords=False):
+
+    df['Tokenized'] = df['text'].apply(word_tokenize)
+
+    if remove_stopwords==True:
+        stop= stopwords.words('english')
+        df['Tokenized'].apply(lambda x: [i for i in x if i not in stop])
+
+    return df
