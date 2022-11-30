@@ -21,9 +21,6 @@ def preprocessing(df):
 
     ### TEXT
 
-    # remove unreadable char
-
-
     # lower case
     df['text'] = df['text'].apply(lambda x: x.lower())
 
@@ -51,6 +48,8 @@ def preprocessing(df):
 def tokenize_text(df, remove_stopwords=False):
 
     df['Tokenized'] = df['text'].apply(word_tokenize)
+
+    # remove unreadable char
     df['Tokenized'] = df['Tokenized'].apply(lambda x: [word.encode('ascii','ignore').decode('ascii')for word in x])
 
     if remove_stopwords:
