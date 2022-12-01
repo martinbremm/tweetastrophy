@@ -7,3 +7,5 @@ matplotlib-inline==0.1.6
 scikit-learn==1.1.2
 seaborn==0.12.0
 streamlit==1.13.0
+locationtagger
+geopy

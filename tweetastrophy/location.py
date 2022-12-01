@@ -1,10 +1,9 @@
 import pandas as pd
 import numpy as np
 
-
+# download before use
 #!python -m spacy download en_core_web_sm
-#!pip install locationtagger
-#!pip install geopy
+
 import locationtagger
 from geopy.geocoders import Nominatim
 
