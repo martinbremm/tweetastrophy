@@ -36,12 +36,15 @@ def extract_gps(country, city):
 
     loc = Nominatim(user_agent="GetLoc")
 
-    if city != 'Unknown':
-        getLoc = loc.geocode(city)
-        return getLoc.latitude, getLoc.longitude
-    else:
-        getLoc = loc.geocode(country)
-        return getLoc.latitude, getLoc.longitude
+    try:
+        if city != 'Unknown':
+            getLoc = loc.geocode(city)
+            return getLoc.latitude, getLoc.longitude
+        else:
+            getLoc = loc.geocode(country)
+            return getLoc.latitude, getLoc.longitude
+    except:
+        return 0,0
 
 
 def creat_location(file_path):
