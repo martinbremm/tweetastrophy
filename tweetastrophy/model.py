@@ -31,23 +31,25 @@ def get_model():
     return model
 
 def get_prediction(text):
-
-    #get data
-    train_data, test_data = get_data(drop_location=True)
-
-    #preprocess
-    processed_train_data = preprocessing(train_data)
-
-    #pipeline
-    pipe = Pipeline([('Vectors', CountVectorizer(binary=True, ngram_range=(1,2))),
-                     ('tfidf', TfidfTransformer()),
-                     ('NB', get_model())])
-
-    pipe.fit(processed_train_data['text'].values, processed_train_data["target"].values)
-
-    predicted = pipe.predict([text])[0]
-
-    if predicted == 1:
-        print("The tweet is Disaster Tweet")
+    if text == '':
+        return ''
     else:
-        print("The tweet is Non Disaster Tweet")
+        #get data
+        train_data, test_data = get_data(drop_location=True)
+
+        #preprocess
+        processed_train_data = preprocessing(train_data)
+
+        #pipeline
+        pipe = Pipeline([('Vectors', CountVectorizer(binary=True, ngram_range=(1,2))),
+                         ('tfidf', TfidfTransformer()),
+                         ('NB', get_model())])
+
+        pipe.fit(processed_train_data['text'].values, processed_train_data["target"].values)
+
+        predicted = pipe.predict([text])[0]
+
+        if predicted == 1:
+            print("The tweet is Disaster Tweet")
+        else:
+            print("The tweet is Non Disaster Tweet")
