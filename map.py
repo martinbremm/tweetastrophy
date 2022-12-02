@@ -3,7 +3,7 @@ import sys
 import os
 from os.path import dirname, abspath, join
 
-cwd = dirname(os.getcwd())
+cwd = os.getcwd()
 code = abspath(join(cwd, 'tweetastrophy'))
 sys.path.append(code)
 
@@ -35,6 +35,7 @@ for index, row in df.iterrows():
     # checking for rows without coordinates
     if row["lat"] == 0.0 or row["lon"] == 0.0:
         continue
+
     elif row["city"] != "Unknown":
         folium.CircleMarker(location=[row["lat"], row["lon"]], radius=10, popup=row["city"],
                             color="#EE4B2B", fill=True, fill_color="#EE4B2B").add_to(map) # red
@@ -42,7 +43,7 @@ for index, row in df.iterrows():
 
         folium.CircleMarker(location=[row["lat"], row["lon"]], radius=20, popup=row["region"],
                             color="#90ee90", fill=True, fill_color="#90ee90").add_to(map) # green
-        
+
     elif (row["country"] != "Unknown") & (row["region"] == "Unknown") & (row["city"] == "Unknown"):
         folium.CircleMarker(location=[row["lat"], row["lon"]], radius=30, popup=row["country"],
                             color="#00008b", fill=True, fill_color="#00008b").add_to(map) # blue
