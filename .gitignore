@@ -3,5 +3,5 @@
 *
 # but not these files
 !.gitignore
-!/tweetastrophy
+!/tweetastrophy/*
 !requirements.txt
