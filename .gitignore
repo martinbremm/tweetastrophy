@@ -3,5 +3,5 @@
 *
 # but not these files
 !.gitignore
-!tweetastrophy/map.py
+!/tweetastrophy/map.py
 !requirements.txt
