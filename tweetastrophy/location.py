@@ -34,26 +34,24 @@ def extract_location(text):
 
 def extract_gps(country, city):
 
-    loc = Nominatim(user_agent="GetLoc")
+    loc  = Nominatim(user_agent="tweetastrophy")
 
-    try:
-        if city != 'Unknown':
-            getLoc = loc.geocode(city)
-            return getLoc.latitude, getLoc.longitude
-        else:
-            getLoc = loc.geocode(country)
-            return getLoc.latitude, getLoc.longitude
-    except:
+
+    if city != 'Unknown':
+        getLoc = loc.geocode(city, exactly_one=True, timeout=10)
+        return getLoc.latitude, getLoc.longitude
+
+    elif country != 'Unknown':
+        getLoc = loc.geocode(country, exactly_one=True, timeout=10)
+        return getLoc.latitude, getLoc.longitude
+    else:
         return 0,0
 
 
 def creat_location(file_path):
 
     with open(file_path) as file:
-        lines = file.readlines()
-        for line in lines:
-            if line == '\n':
-                lines.remove(line)
+        lines = [line.strip() for line in file.readlines() if len(line.strip())>0]
 
     df = pd.DataFrame(lines, columns=['text'])
 
