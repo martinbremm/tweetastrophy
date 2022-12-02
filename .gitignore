@@ -1,10 +1,6 @@
-*.egg-info
-.coverage
-.ipynb_checkpoints
-.DS_Store
-raw_data/
-*.csv
-**/__pycache__/
-.env
-/notebooks
-*.ipynb
+# ignore everything
+*
+# but not these files
+!.gitignore
+!map.py
+!requirements.txt
