@@ -1,5 +1,6 @@
 # ignore everything
-setup.py
+/*
+*
 # but not these files
 !.gitignore
 !map.py
