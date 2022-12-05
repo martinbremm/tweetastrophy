@@ -20,8 +20,6 @@ from streamlit_folium import st_folium
 
 
 
-# creating location df
-df = creat_location("tweetastrophy/tweets.text")
 
 # creating basic map in folium
 map = folium.Map(location=[df.lat.mean(),
@@ -37,16 +35,17 @@ for index, row in df.iterrows():
         continue
 
     elif row["city"] != "Unknown":
-        folium.CircleMarker(location=[row["lat"], row["lon"]], radius=10, popup=row["city"],
+        folium.Circle(location=[row["lat"], row["lon"]], radius=10000, popup=row["city"],
                             color="#EE4B2B", fill=True, fill_color="#EE4B2B").add_to(map) # red
     elif (row["region"] != "Unknown") & (row["city"] == "Unknown"):
 
-        folium.CircleMarker(location=[row["lat"], row["lon"]], radius=20, popup=row["region"],
+        folium.Circle(location=[row["lat"], row["lon"]], radius=660000, popup=row["region"],
                             color="#90ee90", fill=True, fill_color="#90ee90").add_to(map) # green
 
     elif (row["country"] != "Unknown") & (row["region"] == "Unknown") & (row["city"] == "Unknown"):
-        folium.CircleMarker(location=[row["lat"], row["lon"]], radius=30, popup=row["country"],
+        folium.Circle(location=[row["lat"], row["lon"]], radius=660000, popup=row["country"],
                             color="#00008b", fill=True, fill_color="#00008b").add_to(map) # blue
+
 
 
 # adding automatic zoom to last df

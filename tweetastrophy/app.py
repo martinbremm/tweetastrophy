@@ -31,7 +31,7 @@ a, b = st.columns([1, 10])
 
 with a:
     st.text("")
-    st.image("../tweetastrophy/Twitter-logo.svg.webp", width=50)
+    st.image("tweetastrophy/Twitter-logo.svg.webp", width=50)
 with b:
     st.title("Tweetastrophy")
 
@@ -47,7 +47,7 @@ def local_css(file_name):
     with open(file_name) as f:
         st.markdown(hide_menu, unsafe_allow_html=True)
 
-local_css("config.toml")
+local_css("tweetastrophy/config.toml")
 
 
 # creating location df
@@ -83,15 +83,15 @@ for index, row in df.iterrows():
         continue
 
     elif row["city"] != "Unknown":
-        folium.CircleMarker(location=[row["lat"], row["lon"]], radius=10, popup=row["city"],
+        folium.Circle(location=[row["lat"], row["lon"]], radius=10000, popup=row["city"],
                             color="#EE4B2B", fill=True, fill_color="#EE4B2B").add_to(map) # red
     elif (row["region"] != "Unknown") & (row["city"] == "Unknown"):
 
-        folium.CircleMarker(location=[row["lat"], row["lon"]], radius=20, popup=row["region"],
+        folium.Circle(location=[row["lat"], row["lon"]], radius=660000, popup=row["region"],
                             color="#90ee90", fill=True, fill_color="#90ee90").add_to(map) # green
 
     elif (row["country"] != "Unknown") & (row["region"] == "Unknown") & (row["city"] == "Unknown"):
-        folium.CircleMarker(location=[row["lat"], row["lon"]], radius=30, popup=row["country"],
+        folium.Circle(location=[row["lat"], row["lon"]], radius=660000, popup=row["country"],
                             color="#00008b", fill=True, fill_color="#00008b").add_to(map) # blue
 
 # adding automatic zoom to last df

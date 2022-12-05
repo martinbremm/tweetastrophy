@@ -1,12 +1,16 @@
 import pandas as pd
 import numpy as np
-import en_core_web_sm
 
 # download before use
 #!python -m spacy download en_core_web_sm
 
 import locationtagger
 from geopy.geocoders import Nominatim
+
+from bs4 import BeautifulSoup
+import requests
+import string
+import re
 
 
 
@@ -49,6 +53,28 @@ def extract_gps(country, city):
         return 0,0
 
 
+
+def get_area(city):
+    url = f"https://en.wikipedia.org/wiki/{city}"
+    r = requests.get(url)
+    soup = BeautifulSoup(r.text, 'html.parser')
+    table = soup.find('table', {'class': 'infobox'})
+    try:
+        for th in table:
+            res = re.search('km' , th.text)
+            if res != None:
+                span = res.span()
+                num = th.text[span[0]-15:span[1]]
+                num = ''.join(digit for digit in num if digit in string.digits)
+                return int(num)
+            else:
+                return 'NotFound'
+    except:
+        return 'NotFound'
+
+
+
+
 def creat_location(file_path):
 
     with open(file_path) as file:
@@ -70,10 +96,7 @@ def creat_location(file_path):
         else:
             df['size'].iloc[x] = get_area(y['city'])
 
-<<<<<<< HEAD
-=======
         if y['city'] != 'Unknown' and y['country'] != 'Unknown' and y['size'] != 'NotFound':
             df['size'].iloc[x] = get_area(y['country'])
 
->>>>>>> d586233f0c52ce646a1f4a34ce556a6194f3692a
     return df
