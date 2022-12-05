@@ -1,9 +1,10 @@
+import streamlit as st
+from get_data import get_data
+from preprocessing import preprocessing, tokenize_text
 import folium
 import streamlit as st
 from streamlit_folium import st_folium
 
-from get_data import get_data
-from preprocessing import preprocessing, tokenize_text
 from location import extract_gps, extract_location
 from model import get_model, get_prediction
 import numpy as np
