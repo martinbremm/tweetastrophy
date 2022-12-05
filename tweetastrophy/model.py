@@ -34,7 +34,6 @@ def get_prediction(text):
     if text == '':
         return ''
     else:
-
         #get data
         train_data, test_data = get_data(drop_location=True)
 

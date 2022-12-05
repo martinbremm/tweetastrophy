@@ -7,6 +7,11 @@ import numpy as np
 import locationtagger
 from geopy.geocoders import Nominatim
 
+from bs4 import BeautifulSoup
+import requests
+import string
+import re
+
 
 
 
@@ -34,26 +39,46 @@ def extract_location(text):
 
 def extract_gps(country, city):
 
-    loc = Nominatim(user_agent="GetLoc")
+    loc  = Nominatim(user_agent="tweetastrophy")
 
-    try:
-        if city != 'Unknown':
-            getLoc = loc.geocode(city)
-            return getLoc.latitude, getLoc.longitude
-        else:
-            getLoc = loc.geocode(country)
-            return getLoc.latitude, getLoc.longitude
-    except:
+
+    if city != 'Unknown':
+        getLoc = loc.geocode(city, exactly_one=True, timeout=10)
+        return getLoc.latitude, getLoc.longitude
+
+    elif country != 'Unknown':
+        getLoc = loc.geocode(country, exactly_one=True, timeout=10)
+        return getLoc.latitude, getLoc.longitude
+    else:
         return 0,0
+
+
+
+def get_area(city):
+    url = f"https://en.wikipedia.org/wiki/{city}"
+    r = requests.get(url)
+    soup = BeautifulSoup(r.text, 'html.parser')
+    table = soup.find('table', {'class': 'infobox'})
+    try:
+        for th in table:
+            res = re.search('km' , th.text)
+            if res != None:
+                span = res.span()
+                num = th.text[span[0]-15:span[1]]
+                num = ''.join(digit for digit in num if digit in string.digits)
+                return int(num)
+            else:
+                return 'NotFound'
+    except:
+        return 'NotFound'
+
+
 
 
 def creat_location(file_path):
 
     with open(file_path) as file:
-        lines = file.readlines()
-        for line in lines:
-            if line == '\n':
-                lines.remove(line)
+        lines = [line.strip() for line in file.readlines() if len(line.strip())>0]
 
     df = pd.DataFrame(lines, columns=['text'])
 
@@ -65,5 +90,7 @@ def creat_location(file_path):
     df['lon'] = np.nan
     for x, y in df.iterrows():
         df['lat'].iloc[x], df['lon'].iloc[x] = (extract_gps(y['country'],y['city']))
+
+    df['size'] = df['city'].apply(lambda x: get_area(x) if x != 'Unknown' else 'NotFound')
 
     return df
