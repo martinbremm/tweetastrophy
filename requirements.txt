@@ -11,3 +11,4 @@ streamlit==1.13.0
 streamlit-folium==0.7.0
 locationtagger
 geopy
+spacy==3.4.3
