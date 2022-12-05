@@ -13,7 +13,7 @@ import string
 import re
 
 
-
+nlp = en_core_web_sm.load()
 
 
 def extract_location(text):
