@@ -3,7 +3,7 @@ import numpy as np
 
 # download before use
 #!python -m spacy download en_core_web_sm
-
+import spacy
 import locationtagger
 from geopy.geocoders import Nominatim
 
