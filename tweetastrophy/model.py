@@ -42,14 +42,14 @@ def get_prediction(text):
 
         #pipeline
         pipe = Pipeline([('Vectors', CountVectorizer(binary=True, ngram_range=(1,2))),
-                         ('tfidf', TfidfTransformer()),
-                         ('NB', get_model())])
+                        ('tfidf', TfidfTransformer()),
+                        ('NB', get_model())])
 
         pipe.fit(processed_train_data['text'].values, processed_train_data["target"].values)
 
         predicted = pipe.predict([text])[0]
 
         if predicted == 1:
-            print("The tweet is Disaster Tweet")
+            return "The tweet is Disaster Tweet"
         else:
-            print("The tweet is Non Disaster Tweet")
+            return "The tweet is Non Disaster Tweet"
