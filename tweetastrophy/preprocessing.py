@@ -1,61 +1,68 @@
-from nltk.tokenize import word_tokenize
-from nltk.corpus import stopwords
+import pandas as pd
+import numpy as np
+import en_core_web_sm
+
+# download before use
+#!python -m spacy download en_core_web_sm
+
+import locationtagger
+from geopy.geocoders import Nominatim
 
 
-import string
-import re
-
-## KEYWORD HANDLING
 
 
-def preprocessing(df):
-    ### KEYWORDS
 
-    # handling NaN in keyword
-    df["keyword"] = df["keyword"].fillna("")
+def extract_location(text):
 
-    df["keyword"] = df['keyword'].str.replace("%20", " ")
+    place_entity = locationtagger.find_locations(text = text)
 
-    # adding hashtags to keywords
-    df['keyword'] = df["keyword"] + df["text"].apply(lambda x: " ".join(re.findall("#(\w+)", x)).lower())
-
-    ### TEXT
-
-    # lower case
-    df['text'] = df['text'].apply(lambda x: x.lower())
-
-    #strip data
-    df['text'] = df['text'].str.strip()
-
-    #cleaning urls
-    df['text'] = df['text'].apply(lambda x: re.sub('((http|https)\:\/\/)?[a-zA-Z0-9\.\/\?\:@\-_=#]+\.([a-zA-Z]){2,6}([a-zA-Z0-9\.\&\/\?\:@\-_=#])*',
-                                                       '', x))
-    #remove emails
-    df['text'] = df['text'].apply(lambda x: re.sub(r'([a-z0-9+._-]+@[a-z0-9+._-]+\.[a-z0-9+_-]+)',"", x))
-
-    #clean username
-    df['text'] = df['text'].apply(lambda x: re.sub('@[^\s]+','', x))
-
-    #remove digits
-    df['text'] = df['text'].apply(lambda x: ''.join(i for i in x if i not in string.digits))
-
-    #remove punctuations
-    df['text'] = df['text'].apply(lambda x: ''.join(i for i in x if i not in string.punctuation))
-
-    return df
+    dic = {'region':place_entity.regions,
+        'country':place_entity.countries,
+        'city': place_entity.cities,
+        'place': place_entity.other}
+    if len(dic['country']) == 0:
+        dic['country'] = [country for country in place_entity.country_cities.keys()]
+        if len(dic['country']) == 0:
+            dic['country'] = [country for country in place_entity.country_regions.keys()]
 
 
-def tokenize_text(df, remove_stopwords=False):
+    for k in dic.keys():
+        if len(dic[k]) == 0:
+              dic[k] = ['Unknown']
+    return dic
 
-    df['Tokenized'] = df['text'].apply(word_tokenize)
 
-    # remove unreadable char
-    df['Tokenized'] = df['Tokenized'].apply(lambda x: [word.encode('ascii','ignore').decode('ascii')for word in x])
 
-    if remove_stopwords:
-        stop = stopwords.words('english')
-        df['Tokenized'] = df['Tokenized'].apply(lambda x: [i for i in x if i not in stop])
+def extract_gps(country, city):
 
-        return df
+    loc  = Nominatim(user_agent="tweetastrophy")
+
+
+    if city != 'Unknown':
+        getLoc = loc.geocode(city, exactly_one=True, timeout=10)
+        return getLoc.latitude, getLoc.longitude
+
+    elif country != 'Unknown':
+        getLoc = loc.geocode(country, exactly_one=True, timeout=10)
+        return getLoc.latitude, getLoc.longitude
+    else:
+        return 0,0
+
+
+def creat_location(file_path):
+
+    with open(file_path) as file:
+        lines = [line.strip() for line in file.readlines() if len(line.strip())>0]
+
+    df = pd.DataFrame(lines, columns=['text'])
+
+    ls = ['region','country','city']
+    for k in ls:
+        df[k] = df['text'].apply(lambda x: extract_location(x)[k][0])
+
+    df['lat'] = np.nan
+    df['lon'] = np.nan
+    for x, y in df.iterrows():
+        df['lat'].iloc[x], df['lon'].iloc[x] = (extract_gps(y['country'],y['city']))
 
     return df
