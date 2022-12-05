@@ -1,16 +1,13 @@
 import pandas as pd
 import numpy as np
-import spacy
+from spacy.cli import download
 
+download("en_core_web_sm")
 # download before use
 #!python -m spacy download en_core_web_sm
-nlp = spacy.load("en_core_web_sm")
 
 import locationtagger
 from geopy.geocoders import Nominatim
-
-
-
 
 
 def extract_location(text):
