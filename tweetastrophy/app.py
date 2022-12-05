@@ -6,7 +6,7 @@ import streamlit as st
 from streamlit_folium import st_folium
 
 from location import extract_gps, extract_location
-from model import get_model, get_prediction
+from predict import get_model, get_prediction
 import numpy as np
 import pandas as pd
 

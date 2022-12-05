@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+import en_core_web_sm
 
 # download before use
 #!python -m spacy download en_core_web_sm
