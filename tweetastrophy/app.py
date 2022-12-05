@@ -31,7 +31,7 @@ a, b = st.columns([1, 10])
 
 with a:
     st.text("")
-    st.image("../tweetastrophy/Twitter-logo.svg.webp", width=50)
+    st.image("tweetastrophy/Twitter-logo.svg.webp", width=50)
 with b:
     st.title("Tweetastrophy")
 
@@ -47,7 +47,7 @@ def local_css(file_name):
     with open(file_name) as f:
         st.markdown(hide_menu, unsafe_allow_html=True)
 
-local_css("config.toml")
+local_css("tweetastrophy/config.toml")
 
 
 # creating location df
