@@ -62,7 +62,18 @@ def creat_location(file_path):
 
     df['lat'] = np.nan
     df['lon'] = np.nan
+    df['size'] = np.nan
     for x, y in df.iterrows():
         df['lat'].iloc[x], df['lon'].iloc[x] = (extract_gps(y['country'],y['city']))
+        if y['city'] == 'Unknown' and y['country'] != 'Unknown':
+            df['size'].iloc[x] = get_area(y['country'])
+        else:
+            df['size'].iloc[x] = get_area(y['city'])
 
+<<<<<<< HEAD
+=======
+        if y['city'] != 'Unknown' and y['country'] != 'Unknown' and y['size'] != 'NotFound':
+            df['size'].iloc[x] = get_area(y['country'])
+
+>>>>>>> d586233f0c52ce646a1f4a34ce556a6194f3692a
     return df
