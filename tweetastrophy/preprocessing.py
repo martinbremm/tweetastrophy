@@ -1,5 +1,8 @@
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.feature_extraction.text import TfidfTransformer
+from sklearn.pipeline import Pipeline
 
 
 import string
@@ -59,3 +62,16 @@ def tokenize_text(df, remove_stopwords=False):
         return df
 
     return df
+
+def vectorization(df, fit=False):
+    #pipeline
+
+    pipe = Pipeline([('Vectors', CountVectorizer(binary=True, ngram_range=(1,2))),
+                        ('tfidf', TfidfTransformer())])
+    if fit == True:
+        pipe = pipe.fit(df)
+        transformed_df = pipe.transform(df)
+        return transformed_df
+    else:
+        transformed_df = pipe.transform(df)
+        return transformed_df
