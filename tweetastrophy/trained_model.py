@@ -1,10 +1,9 @@
-
 #imports
 from get_data import get_data
 from preprocessing import preprocessing, tokenize_text, vectorization
-from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
 from sklearn.naive_bayes import MultinomialNB
-
+from sklearn.pipeline import Pipeline
 
 
 def train_model():
@@ -14,16 +13,12 @@ def train_model():
     #preprocess
     processed_train_data = preprocessing(train_data)
 
-    #tokenize
-    tokenized_train_no_stopwords = tokenize_text(processed_train_data, remove_stopwords=True)
+    #vectorization pipeline
+    model = Pipeline([('Vectors', CountVectorizer(binary=True, ngram_range=(1,2))),
+                        ('tfidf', TfidfTransformer()),
+                        ('NB', MultinomialNB(alpha=0.55))])
 
-    #vectorize
-    vectorizer = vectorization(tokenized_train_no_stopwords, fit=True)
-
-    #model
-    model = MultinomialNB(alpha=0.55)
-
-    #fitting
-    model.fit(vectorizer, processed_train_data["target"])
+    # fitting
+    model.fit(processed_train_data['text'].values, processed_train_data["target"].values)
 
     return model
