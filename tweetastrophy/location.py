@@ -79,7 +79,7 @@ def get_area(city):
 
 
 
-def creat_location(df):
+def create_location(df):
 
     ls = ['region','country','city']
     for k in ls:
