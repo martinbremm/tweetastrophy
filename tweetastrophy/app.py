@@ -75,7 +75,11 @@ else:
     # creating basic map in folium
     map = folium.Map(location=[df.lat.mean(),
                             df.lon.mean()],
+<<<<<<< HEAD
                     tiles="openstreetmap",
+=======
+                    tiles="cartodbpositron",
+>>>>>>> 5a3756f04f72e7b23bbbf300364ad7109fd64a19
                     zoom_start=5, min_zoom=3, control_scale=True)
 
     # mapping circles to df in DataFrame

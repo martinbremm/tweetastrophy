@@ -1,8 +1,14 @@
-import pandas as pd
 import numpy as np
+import pandas as pd
 
-# download before use
-#!python -m spacy download en_core_web_sm
+import spacy
+spacy.cli.download("en_core_web_sm")
+
+import nltk
+nltk.download('punkt')
+nltk.download('averaged_perceptron_tagger')
+nltk.download('maxent_ne_chunker')
+nltk.download('words')
 
 import locationtagger
 from geopy.geocoders import Nominatim
@@ -11,7 +17,6 @@ from bs4 import BeautifulSoup
 import requests
 import string
 import re
-
 
 
 
@@ -35,8 +40,6 @@ def extract_location(text):
               dic[k] = ['Unknown']
     return dic
 
-
-
 def extract_gps(country, city):
 
     loc  = Nominatim(user_agent="tweetastrophy")
@@ -51,8 +54,6 @@ def extract_gps(country, city):
         return getLoc.latitude, getLoc.longitude
     else:
         return 0,0
-
-
 
 def get_area(city):
     url = f"https://en.wikipedia.org/wiki/{city}"
@@ -72,31 +73,36 @@ def get_area(city):
     except:
         return 'NotFound'
 
+def create_location(df):
 
+    df_dict = df.to_dict("records")
 
+    dictionary_list = []
+    for idx, row in enumerate(df_dict):
+        ### creating list of location details
 
-def creat_location(file_path):
+        # adding geo info
+        dic = extract_location(row["text"])
+        dic["region"] = dic["region"][0]
+        dic["country"] = dic["country"][0]
+        dic["city"] = dic["city"][0]
 
-    with open(file_path) as file:
-        lines = [line.strip() for line in file.readlines() if len(line.strip())>0]
+        # adding gps
+        dic['lat'], dic['lon'] = extract_gps(dic['country'],dic['city'])
+        dictionary_list.append(dic)
 
-    df = pd.DataFrame(lines, columns=['text'])
-
-    ls = ['region','country','city']
-    for k in ls:
-        df[k] = df['text'].apply(lambda x: extract_location(x)[k][0])
-
-    df['lat'] = np.nan
-    df['lon'] = np.nan
-    df['size'] = np.nan
-    for x, y in df.iterrows():
-        df['lat'].iloc[x], df['lon'].iloc[x] = (extract_gps(y['country'],y['city']))
-        if y['city'] == 'Unknown' and y['country'] != 'Unknown':
-            df['size'].iloc[x] = get_area(y['country'])
+        # adding area size to the dictionary
+        if dic['city'] == 'Unknown' and dic['country'] != 'Unknown':
+            dic['size'] = get_area(dic['country'])
         else:
-            df['size'].iloc[x] = get_area(y['city'])
+            dic['size'] = get_area(dic['city'])
 
-        if y['city'] != 'Unknown' and y['country'] != 'Unknown' and y['size'] != 'NotFound':
-            df['size'].iloc[x] = get_area(y['country'])
+        if dic['city'] != 'Unknown' and dic['country'] != 'Unknown' and dic['size'] == 'NotFound':
+            dic['size'] = get_area(dic['country'])
 
-    return df
+        dictionary_list.append(dic)
+
+
+    locations_df = pd.DataFrame.from_dict(data=dictionary_list)
+
+    return locations_df
