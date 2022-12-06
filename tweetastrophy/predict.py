@@ -1,5 +1,7 @@
 
 #imports
+import sys
+print(sys.executable)
 from get_data import get_data
 from preprocessing import preprocessing, tokenize_text
 import emoji
