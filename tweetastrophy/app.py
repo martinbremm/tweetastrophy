@@ -15,14 +15,11 @@ hide_menu = """
 <style>
 #MainMenu {
     visibility:hidden;
-
 }
-
 footer {
     visibility:hidden;
 }
 </style>
-
 """
 st.set_page_config(page_title='Tweetastrophy', page_icon=':tada:', layout='wide')
 
@@ -76,7 +73,7 @@ else:
     # creating basic map in folium
     map = folium.Map(location=[df.lat.mean(),
                             df.lon.mean()],
-                    tiles="cartodbpositron",
+                    tiles="openstreetmap",
                     zoom_start=5, min_zoom=3, control_scale=True)
 
     # mapping circles to df in DataFrame

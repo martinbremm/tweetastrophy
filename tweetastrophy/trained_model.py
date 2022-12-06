@@ -1,4 +1,3 @@
-#imports
 from get_data import get_data
 from preprocessing import preprocessing, tokenize_text, vectorization
 from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
