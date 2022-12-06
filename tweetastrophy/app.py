@@ -31,7 +31,7 @@ a, b = st.columns([1, 20])
 
 with a:
     st.text("")
-    st.image("tweetastrophy/Twitter-logo.svg.webp", width=50)
+    st.image("tweetastrophy/twitter_logo.png", width=50)
 with b:
     st.title("Tweetastrophy")
 
