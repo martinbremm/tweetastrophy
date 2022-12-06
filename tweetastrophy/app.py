@@ -1,16 +1,14 @@
+import pandas as pd
 import streamlit as st
-from preprocessing import preprocessing, tokenize_text
 import folium
-import streamlit as st
 from streamlit_folium import st_folium
 
 from location import create_location
 from predict import get_prediction
-import numpy as np
-import pandas as pd
 
 text_archive = []
 
+# frontend style descriptors
 hide_menu = """
 <style>
 #MainMenu {
@@ -36,13 +34,16 @@ c, d = st.columns([500, 400])
 with c:
     txt = st.text_area('Enter your tweet here 👇🏼', '')
     st.button('Predict')
+
+# creating prediction value
+prediction = get_prediction(txt)
+
 with d:
     st.write('')
     st.write('')
     st.write('')
     st.write('')
-
-    st.write('', get_prediction(txt))
+    st.write('', prediction)
 
 
 def local_css(file_name):
@@ -50,6 +51,9 @@ def local_css(file_name):
         st.markdown(hide_menu, unsafe_allow_html=True)
 
 local_css("tweetastrophy/config.toml")
+
+
+
 
 # creating location df
 text_archive.append(txt)
@@ -73,7 +77,7 @@ else:
 
     # creating basic map in folium
     map = folium.Map(location=[locations_df.lat.mean(), locations_df.lon.mean()],
-                    tiles="openstreetmap",
+                    tiles="cartodbpositron",
                     zoom_start=5, min_zoom=3, control_scale=True)
 
     # mapping circles to df in DataFrame

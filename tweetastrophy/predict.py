@@ -1,10 +1,8 @@
 
 #imports
 
-from get_data import get_data
-from preprocessing import preprocessing, tokenize_text
+from preprocessing import preprocessing
 import joblib
-
 
 
 
@@ -15,6 +13,9 @@ def get_prediction(text):
     if text == '':
         return ''
     else:
+        # preprocessing raw input text
+        text = preprocessing(text)
+
         predicted = model.predict([text])[0]
 
         if predicted == 1:

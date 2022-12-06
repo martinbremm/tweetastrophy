@@ -1,9 +1,9 @@
 import pandas as pd
 def get_data(drop_location=False):
-    train_data = pd.read_csv("../raw_data/train.csv")
+    train_data = pd.read_csv("./raw_data/train.csv")
     train_data = train_data
 
-    test_data = pd.read_csv("../raw_data/test.csv")
+    test_data = pd.read_csv("./raw_data/test.csv")
     test_data = test_data
 
     if drop_location == True:

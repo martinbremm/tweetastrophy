@@ -1,15 +1,9 @@
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
-from sklearn.feature_extraction.text import CountVectorizer
-from sklearn.feature_extraction.text import TfidfTransformer
-from sklearn.pipeline import Pipeline
-
-
 import string
 import re
 
 ## KEYWORD HANDLING
-
 
 def preprocessing(df):
     ### KEYWORDS
@@ -47,8 +41,7 @@ def preprocessing(df):
 
     return df
 
-
-def tokenize_text(df, remove_stopwords=False):
+"""def tokenize_text(df, remove_stopwords=False):
 
     df['Tokenized'] = df['text'].apply(word_tokenize)
 
@@ -59,11 +52,9 @@ def tokenize_text(df, remove_stopwords=False):
         stop = stopwords.words('english')
         df['Tokenized'] = df['Tokenized'].apply(lambda x: [i for i in x if i not in stop])
 
-        return df
-
     return df
 
-"""def vectorization(df, fit=False):
+def vectorization(df, fit=False):
     #pipeline
 
     pipe = Pipeline([('Vectors', CountVectorizer(binary=True, ngram_range=(1,2))),

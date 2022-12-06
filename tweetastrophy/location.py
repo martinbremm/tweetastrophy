@@ -23,7 +23,6 @@ from streamlit_folium import st_folium
 
 
 
-
 def extract_location(text):
 
     place_entity = locationtagger.find_locations(text = text)
@@ -32,6 +31,7 @@ def extract_location(text):
         'country':place_entity.countries,
         'city': place_entity.cities,
         'place': place_entity.other}
+
     if len(dic['country']) == 0:
         dic['country'] = [country for country in place_entity.country_cities.keys()]
         if len(dic['country']) == 0:
@@ -81,7 +81,7 @@ def create_location(df):
     df_dict = df.to_dict("records")
 
     dictionary_list = []
-    for idx, row in enumerate(df_dict):
+    for row in df_dict:
         ### creating list of location details
 
         # adding geo info
