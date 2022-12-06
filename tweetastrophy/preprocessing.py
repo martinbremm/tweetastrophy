@@ -63,7 +63,7 @@ def tokenize_text(df, remove_stopwords=False):
 
     return df
 
-def vectorization(df, fit=False):
+"""def vectorization(df, fit=False):
     #pipeline
 
     pipe = Pipeline([('Vectors', CountVectorizer(binary=True, ngram_range=(1,2))),
@@ -74,4 +74,4 @@ def vectorization(df, fit=False):
         return transformed_df
     else:
         transformed_df = pipe.transform(df)
-        return transformed_df
+        return transformed_df"""
