@@ -1,5 +1,8 @@
+import pandas as pd
 import numpy as np
 
+# download before use
+#!python -m spacy download en_core_web_sm
 import spacy
 spacy.cli.download("en_core_web_sm")
 
@@ -79,7 +82,12 @@ def get_area(city):
 
 
 
-def create_location(df):
+def creat_location(file_path):
+
+    with open(file_path) as file:
+        lines = [line.strip() for line in file.readlines() if len(line.strip())>0]
+
+    df = pd.DataFrame(lines, columns=['text'])
 
     ls = ['region','country','city']
     for k in ls:
