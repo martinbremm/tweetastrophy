@@ -1,7 +1,7 @@
 
 #imports
 
-from preprocessing import preprocessing
+from preprocessing import text_preprocessing
 import joblib
 
 
@@ -14,7 +14,7 @@ def get_prediction(text):
         return ''
     else:
         # preprocessing raw input text
-        text = preprocessing(text)
+        text = text_preprocessing(text)
 
         predicted = model.predict([text])[0]
 
