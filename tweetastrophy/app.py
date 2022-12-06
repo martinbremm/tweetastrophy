@@ -58,7 +58,7 @@ text_archive = list(set(text_archive))
 
 if txt == "":
     map = folium.Map(location=[0,0],
-                 tiles="openstreetmap",
+                 tiles="stamentoner",
                  zoom_start=3, control_scale=True)
 
     text_archive.remove(txt)
