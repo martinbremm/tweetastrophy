@@ -1,4 +1,5 @@
 import streamlit as st
+from get_data import get_data
 from preprocessing import preprocessing, tokenize_text
 import folium
 import streamlit as st
@@ -8,7 +9,6 @@ from location import extract_gps, extract_location
 from predict import get_prediction
 import numpy as np
 import pandas as pd
-
 
 text_archive = []
 
@@ -25,9 +25,9 @@ footer {
 </style>
 
 """
-st.set_page_config(page_title='Tweetastrophy', page_icon=':tada:', layout='centered')
+st.set_page_config(page_title='Tweetastrophy', page_icon=':tada:', layout='wide')
 
-a, b = st.columns([1, 10])
+a, b = st.columns([1, 20])
 
 with a:
     st.text("")
@@ -35,11 +35,17 @@ with a:
 with b:
     st.title("Tweetastrophy")
 
+c, d = st.columns([500, 400])
 
-
-with st.container() :
+with c:
     txt = st.text_area('Enter your tweet here 👇🏼', '')
     st.button('Predict')
+with d:
+    st.write('')
+    st.write('')
+    st.write('')
+    st.write('')
+
     st.write('', get_prediction(txt))
 
 
@@ -101,4 +107,4 @@ ne = df[['lat', 'lon']].max().values.tolist()
 map.fit_bounds([sw, ne], padding=(1,1))
 
 # render Folium map in Streamlit
-st_data = st_folium(map)
+st_data = st_folium(map, width=2000, height=600)
