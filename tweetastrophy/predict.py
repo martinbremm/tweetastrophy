@@ -1,10 +1,8 @@
 
 #imports
-import sys
-print(sys.executable)
+
 from get_data import get_data
 from preprocessing import preprocessing, tokenize_text
-import emoji
 import joblib
 
 
@@ -20,6 +18,6 @@ def get_prediction(text):
         predicted = model.predict([text])[0]
 
         if predicted == 1:
-            return emoji.emojize("The tweet is Disaster Tweet :exclamation:")
+            return "The tweet is Disaster Tweet"
         else:
-            return emoji.emojize("The tweet is Non Disaster Tweet :white_check_mark:")
+            return "The tweet is Non Disaster Tweet"
