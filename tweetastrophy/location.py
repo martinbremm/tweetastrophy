@@ -18,6 +18,9 @@ import requests
 import string
 import re
 
+from streamlit_folium import st_folium
+
+
 
 
 
@@ -73,6 +76,7 @@ def get_area(city):
     except:
         return 'NotFound'
 
+@st_folium.cache
 def create_location(df):
 
     df_dict = df.to_dict("records")
