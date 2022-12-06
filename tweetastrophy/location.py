@@ -8,6 +8,7 @@ spacy.cli.download("en_core_web_sm")
 
 import nltk
 nltk.download('punkt')
+nltk.download('averaged_perceptron_tagger')
 
 import locationtagger
 from geopy.geocoders import Nominatim
