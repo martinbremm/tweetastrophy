@@ -6,6 +6,9 @@ import numpy as np
 import spacy
 spacy.cli.download("en_core_web_sm")
 
+import nltk
+nltk.download('punkt')
+
 import locationtagger
 from geopy.geocoders import Nominatim
 
