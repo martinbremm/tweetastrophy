@@ -2,9 +2,15 @@
 #imports
 from get_data import get_data
 from preprocessing import preprocessing, tokenize_text, vectorization
+<<<<<<< HEAD
 from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.pipeline import Pipeline
+=======
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.naive_bayes import MultinomialNB
+
+>>>>>>> 45d8778db230ca8c4ba9744a3675f3b828ec4462
 
 
 def train_model():
