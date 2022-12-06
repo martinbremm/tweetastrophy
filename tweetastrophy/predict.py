@@ -2,12 +2,15 @@
 #imports
 from get_data import get_data
 from preprocessing import preprocessing, tokenize_text
-
+import emoji
 import joblib
+
+
+
 
 def get_prediction(text):
 
-    model = joblib.load('./tweetastrophy/trained_model.joblib')
+    model = joblib.load('pretrained_model.joblib')
 
     if text == '':
         return ''
@@ -15,6 +18,6 @@ def get_prediction(text):
         predicted = model.predict([text])[0]
 
         if predicted == 1:
-            return "The tweet is Disaster Tweet"
+            return emoji.emojize("The tweet is Disaster Tweet :exclamation:")
         else:
-            return "The tweet is Non Disaster Tweet"
+            return emoji.emojize("The tweet is Non Disaster Tweet :white_check_mark:")
