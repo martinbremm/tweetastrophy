@@ -5,9 +5,6 @@ from preprocessing import preprocessing, tokenize_text
 
 import joblib
 
-
-
-
 def get_prediction(text):
 
     model = joblib.load('pretrained_model.joblib')
