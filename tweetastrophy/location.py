@@ -39,8 +39,6 @@ def extract_location(text):
               dic[k] = ['Unknown']
     return dic
 
-
-
 def extract_gps(country, city):
 
     loc  = Nominatim(user_agent="tweetastrophy")
@@ -55,8 +53,6 @@ def extract_gps(country, city):
         return getLoc.latitude, getLoc.longitude
     else:
         return 0,0
-
-
 
 def get_area(city):
     url = f"https://en.wikipedia.org/wiki/{city}"
@@ -75,9 +71,6 @@ def get_area(city):
                 return 'NotFound'
     except:
         return 'NotFound'
-
-
-
 
 def create_location(df):
 
