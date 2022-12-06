@@ -68,16 +68,21 @@ else:
     text_df = pd.DataFrame.from_dict(data={"text": text_archive})
 
     # looping over text entries in text archive and extracting locations
-    df = create_location(text_df)
+    locations_df = create_location(text_df)
+
 
     # creating basic map in folium
-    map = folium.Map(location=[df.lat.mean(),
-                            df.lon.mean()],
+    map = folium.Map(location=[locations_df.lat.mean(), locations_df.lon.mean()],
                     tiles="openstreetmap",
                     zoom_start=5, min_zoom=3, control_scale=True)
 
     # mapping circles to df in DataFrame
-    for index, row in df.iterrows():
+    df_dict = locations_df.to_dict("records")
+
+    dictionary_list = []
+
+    for row in df_dict:
+
         # checking for rows without coordinates
         if row["lat"] == 0.0 or row["lon"] == 0.0:
             continue
@@ -110,8 +115,8 @@ else:
                                 color="#00008b", fill=True, fill_color="#00008b").add_to(map) # blue
 
     # adding automatic zoom to last df
-    sw = df[['lat', 'lon']].min().values.tolist()
-    ne = df[['lat', 'lon']].max().values.tolist()
+    sw = locations_df[['lat', 'lon']].min().values.tolist()
+    ne = locations_df[['lat', 'lon']].max().values.tolist()
 
     map.fit_bounds([sw, ne], padding=(1,1), max_zoom=30)
 
