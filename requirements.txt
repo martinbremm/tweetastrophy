@@ -12,4 +12,7 @@ streamlit-folium==0.7.0
 locationtagger
 geopy
 spacy==3.4.3
+<<<<<<< HEAD
 en-core-web-sm @ https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.4.1/en_core_web_sm-3.4.1-py3-none-any.whl
+=======
+>>>>>>> cae87fc05495a868cfbfaf772dcf9eb49b2ad994
