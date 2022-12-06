@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 
 import spacy
 spacy.cli.download("en_core_web_sm")
@@ -74,21 +75,34 @@ def get_area(city):
 
 def create_location(df):
 
-    ls = ['region','country','city']
-    for k in ls:
-        df[k] = df['text'].apply(lambda x: extract_location(x)[k][0])
+    df_dict = df.to_dict("records")
 
-    df['lat'] = np.nan
-    df['lon'] = np.nan
-    df['size'] = np.nan
-    for x, y in df.iterrows():
-        df['lat'].iloc[x], df['lon'].iloc[x] = (extract_gps(y['country'],y['city']))
-        if y['city'] == 'Unknown' and y['country'] != 'Unknown':
-            df['size'].iloc[x] = get_area(y['country'])
+    dictionary_list = []
+    for idx, row in enumerate(df_dict):
+        ### creating list of location details
+
+        # adding geo info
+        dic = extract_location(row["text"])
+        dic["region"] = dic["region"][0]
+        dic["country"] = dic["country"][0]
+        dic["city"] = dic["city"][0]
+
+        # adding gps
+        dic['lat'], dic['lon'] = extract_gps(dic['country'],dic['city'])
+        dictionary_list.append(dic)
+
+        # adding area size to the dictionary
+        if dic['city'] == 'Unknown' and dic['country'] != 'Unknown':
+            dic['size'] = get_area(dic['country'])
         else:
-            df['size'].iloc[x] = get_area(y['city'])
+            dic['size'] = get_area(dic['city'])
 
-        if y['city'] != 'Unknown' and y['country'] != 'Unknown' and y['size'] != 'NotFound':
-            df['size'].iloc[x] = get_area(y['country'])
+        if dic['city'] != 'Unknown' and dic['country'] != 'Unknown' and dic['size'] != 'NotFound':
+            dic['size'] = get_area(dic['country'])
 
-    return df
+        dictionary_list.append(dic)
+
+
+    locations_df = pd.DataFrame.from_dict(data=dictionary_list)
+
+    return locations_df
