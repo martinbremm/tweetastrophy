@@ -10,7 +10,7 @@ import joblib
 
 def get_prediction(text):
 
-    model = joblib.load('trained_model.joblib')
+    model = joblib.load('./tweetastrophy/trained_model.joblib')
 
     if text == '':
         return ''
