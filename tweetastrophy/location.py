@@ -97,7 +97,7 @@ def create_location(df):
         else:
             dic['size'] = get_area(dic['city'])
 
-        if dic['city'] != 'Unknown' and dic['country'] != 'Unknown' and dic['size'] != 'NotFound':
+        if dic['city'] != 'Unknown' and dic['country'] != 'Unknown' and dic['size'] == 'NotFound':
             dic['size'] = get_area(dic['country'])
 
         dictionary_list.append(dic)
