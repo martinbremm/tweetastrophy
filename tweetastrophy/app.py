@@ -73,8 +73,6 @@ else:
     # looping over text entries in text archive and extracting locations
     df = create_location(text_df)
 
-
-
     # creating basic map in folium
     map = folium.Map(location=[df.lat.mean(),
                             df.lon.mean()],
@@ -88,14 +86,29 @@ else:
             continue
 
         elif row["city"] != "Unknown":
-            folium.Circle(location=[row["lat"], row["lon"]], radius=10000, popup=row["city"],
-                                color="#EE4B2B", fill=True, fill_color="#EE4B2B").add_to(map) # red
-        elif (row["region"] != "Unknown") & (row["city"] == "Unknown"):
+            if row["size"] == "Not Found":
+                radius=10000
+            else:
+                radius=row["size"]
 
-            folium.Circle(location=[row["lat"], row["lon"]], radius=660000, popup=row["region"],
+            folium.Circle(location=[row["lat"], row["lon"]], radius=radius, popup=row["city"],
+                                color="#EE4B2B", fill=True, fill_color="#EE4B2B").add_to(map) # red
+
+        elif (row["region"] != "Unknown") & (row["city"] == "Unknown"):
+            if row["size"] == "Not Found":
+                radius=660000
+            else:
+                radius=row["size"]
+
+            folium.Circle(location=[row["lat"], row["lon"]], radius=radius, popup=row["region"],
                                 color="#90ee90", fill=True, fill_color="#90ee90").add_to(map) # green
 
         elif (row["country"] != "Unknown") & (row["region"] == "Unknown") & (row["city"] == "Unknown"):
+            if row["size"] == "Not Found":
+                radius=660000
+            else:
+                radius=row["size"]
+
             folium.Circle(location=[row["lat"], row["lon"]], radius=660000, popup=row["country"],
                                 color="#00008b", fill=True, fill_color="#00008b").add_to(map) # blue
 
