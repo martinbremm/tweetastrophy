@@ -118,7 +118,7 @@ else:
     sw = locations_df[['lat', 'lon']].min().values.tolist()
     ne = locations_df[['lat', 'lon']].max().values.tolist()
 
-    map.fit_bounds([sw, ne], padding=(1,1), max_zoom=30)
+    map.fit_bounds([sw, ne], padding=(1,1), max_zoom=10)
 
 
 # render Folium map in Streamlit
