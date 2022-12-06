@@ -1,11 +1,9 @@
-from nltk.tokenize import word_tokenize
-from nltk.corpus import stopwords
 import string
 import re
 
 ## KEYWORD HANDLING
 
-def preprocessing(df):
+def train_preprocessing(df):
     ### KEYWORDS
 
     # handling NaN in keyword
@@ -18,28 +16,35 @@ def preprocessing(df):
 
     ### TEXT
 
-    # lower case
-    df['text'] = df['text'].apply(lambda x: x.lower())
-
-    #strip data
-    df['text'] = df['text'].str.strip()
-
-    #cleaning urls
-    df['text'] = df['text'].apply(lambda x: re.sub('((http|https)\:\/\/)?[a-zA-Z0-9\.\/\?\:@\-_=#]+\.([a-zA-Z]){2,6}([a-zA-Z0-9\.\&\/\?\:@\-_=#])*',
-                                                       '', x))
-    #remove emails
-    df['text'] = df['text'].apply(lambda x: re.sub(r'([a-z0-9+._-]+@[a-z0-9+._-]+\.[a-z0-9+_-]+)',"", x))
-
-    #clean username
-    df['text'] = df['text'].apply(lambda x: re.sub('@[^\s]+','', x))
-
-    #remove digits
-    df['text'] = df['text'].apply(lambda x: ''.join(i for i in x if i not in string.digits))
-
-    #remove punctuations
-    df['text'] = df['text'].apply(lambda x: ''.join(i for i in x if i not in string.punctuation))
+    df["text"] = df["text"].apply(lambda row: text_preprocessing(row))
 
     return df
+
+def text_preprocessing(text):
+    ### TEXT
+
+    # lower case
+    text = text.lower()
+
+    #strip data
+    text = text.strip()
+
+    #cleaning urls
+    text = re.sub('((http|https)\:\/\/)?[a-zA-Z0-9\.\/\?\:@\-_=#]+\.([a-zA-Z]){2,6}([a-zA-Z0-9\.\&\/\?\:@\-_=#])*',
+                                                       '', text)
+    #remove emails
+    text = re.sub(r'([a-z0-9+._-]+@[a-z0-9+._-]+\.[a-z0-9+_-]+)',"", text)
+
+    #clean username
+    text = re.sub('@[^\s]+','', text)
+
+    #remove digits
+    text = ''.join(i for i in text if i not in string.digits)
+
+    #remove punctuations
+    text = ''.join(i for i in text if i not in string.punctuation)
+
+    return text
 
 """def tokenize_text(df, remove_stopwords=False):
 
