@@ -1,4 +1,5 @@
 import streamlit as st
+import folium
 from streamlit_folium import st_folium
 from predict import get_prediction
 from map import create_map
@@ -6,6 +7,7 @@ from map import create_map
 create_map.clear()
 
 text_archive = []
+
 
 # frontend style descriptors
 hide_menu = """
@@ -51,6 +53,10 @@ def local_css(file_name):
 
 local_css("tweetastrophy/config.toml")
 
+initial_map = folium.Map(location=[0,0],
+                tiles="cartodbpositron",
+                zoom_start=3, control_scale=True)
+st_data = st_folium(map, width=1200, height=600)
 
 # creating text archive of all the txts
 text_archive.append(txt)
