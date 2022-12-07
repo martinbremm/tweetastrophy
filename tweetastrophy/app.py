@@ -53,10 +53,11 @@ def local_css(file_name):
 
 local_css("tweetastrophy/config.toml")
 
+# inital empty map
 initial_map = folium.Map(location=[0,0],
                 tiles="cartodbpositron",
                 zoom_start=3, control_scale=True)
-st_data = st_folium(map, width=1200, height=600)
+st_folium(initial_map, width=1200, height=600)
 
 # creating text archive of all the txts
 text_archive.append(txt)
