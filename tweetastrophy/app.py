@@ -34,7 +34,7 @@ with c:
     st.button('Predict')
 
 # clearing cache
-create_map.clear()
+#create_map.clear()
 
 # creating prediction value
 prediction = get_prediction(txt)
