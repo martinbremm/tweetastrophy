@@ -3,7 +3,6 @@ from preprocessing import text_preprocessing
 import joblib
 import streamlit as st
 
-#@st.cache()
 def get_prediction(text):
 
     model = joblib.load('./tweetastrophy/trained_model.joblib')
@@ -15,7 +14,7 @@ def get_prediction(text):
         text = text_preprocessing(text)
 
         predicted = model.predict([text])[0]
-# jdsndbaskjbd
+
         if predicted == 1:
             return "The tweet is Disaster Tweet"
         else:
