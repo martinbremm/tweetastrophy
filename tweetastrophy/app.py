@@ -1,4 +1,5 @@
 import streamlit as st
+from streamlit import caching
 from streamlit_folium import st_folium
 from predict import get_prediction
 from map import create_map
@@ -32,6 +33,9 @@ c, d = st.columns([500, 400])
 with c:
     txt = st.text_area('Enter your tweet here 👇🏼', '')
     st.button('Predict')
+
+# clearing cache
+caching.clear_cache()
 
 # creating prediction value
 prediction = get_prediction(txt)
