@@ -6,7 +6,7 @@ from streamlit_folium import st_folium
 
 from location import create_location
 
-@st.experimental_memo()
+@st.experimental_memo(suppress_st_warning=True)
 def create_map(text_archive, prediction):
     # creating location df
     if text_archive[-1] == "":
