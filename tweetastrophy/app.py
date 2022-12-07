@@ -3,6 +3,7 @@ from streamlit_folium import st_folium
 from predict import get_prediction
 from map import create_map
 
+create_map.clear()
 
 text_archive = []
 

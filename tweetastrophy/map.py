@@ -78,7 +78,7 @@ def create_map(text_archive, prediction):
         sw = locations_df[['lat', 'lon']].min().values.tolist()
         ne = locations_df[['lat', 'lon']].max().values.tolist()
 
-        map.fit_bounds([sw, ne], padding=(1,1), max_zoom=10)
+        map.fit_bounds([sw, ne], padding=(1,1), max_zoom=8)
 
         st_data = st_folium(map, width=2000, height=600, returned_objects=[])
 
