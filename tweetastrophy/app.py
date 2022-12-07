@@ -91,6 +91,7 @@ else:
         if row["lat"] == 0.0 or row["lon"] == 0.0:
             continue
 
+        # city data available
         elif row["city"] != "Unknown":
             if row["size"] == "Not Found":
                 radius=10000
@@ -100,6 +101,7 @@ else:
             folium.Circle(location=[row["lat"], row["lon"]], radius=radius, popup=row["city"],
                                 color="#EE4B2B", fill=True, fill_color="#EE4B2B").add_to(map) # red
 
+        # region data available
         elif (row["region"] != "Unknown") & (row["city"] == "Unknown"):
             if row["size"] == "Not Found":
                 radius=660000
@@ -109,6 +111,7 @@ else:
             folium.Circle(location=[row["lat"], row["lon"]], radius=radius, popup=row["region"],
                                 color="#90ee90", fill=True, fill_color="#90ee90").add_to(map) # green
 
+        # country data available
         elif (row["country"] != "Unknown") & (row["region"] == "Unknown") & (row["city"] == "Unknown"):
             if row["size"] == "Not Found":
                 radius=660000
