@@ -87,10 +87,11 @@ else:
 
     for row in df_dict:
 
+        # determining the color of the circle
         if prediction == "The tweet is Disaster Tweet":
             color = "#EE4B2B" # red
         else:
-            color = "90ee90" # green
+            color = "#008000" # green
 
         # checking for rows without coordinates
         if row["lat"] == 0.0 or row["lon"] == 0.0:
