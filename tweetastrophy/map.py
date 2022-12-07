@@ -6,8 +6,8 @@ from streamlit_folium import st_folium
 
 from location import create_location
 
-#@st.cache(allow_output_mutation=True)
-def create_map(text_archive, prediction, locations_df):
+#@st.cache(hash_funcs={'builtins.function': hash}, allow_output_mutation=True)
+def create_map(text_archive, prediction):
     # creating location df
     if text_archive[-1] == "":
         map = folium.Map(location=[0,0],
@@ -18,10 +18,10 @@ def create_map(text_archive, prediction, locations_df):
 
     else:
 
-        #text_df = pd.DataFrame.from_dict(data={"text": text_archive})
+        text_df = pd.DataFrame.from_dict(data={"text": text_archive})
 
         # looping over text entries in text archive and extracting locations
-        # locations_df = create_location(text_df)
+        locations_df = create_location(text_df)
 
 
         # creating basic map in folium
