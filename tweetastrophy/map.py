@@ -1,6 +1,8 @@
 import pandas as pd
 import streamlit as st
 import folium
+from streamlit_folium import st_folium
+
 
 from location import create_location
 
@@ -78,4 +80,6 @@ def create_map(text_archive, prediction):
 
         map.fit_bounds([sw, ne], padding=(1,1), max_zoom=10)
 
-        return map
+        st_data = st_folium(map, width=2000, height=600)
+
+        return st_data
