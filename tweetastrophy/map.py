@@ -4,7 +4,7 @@ import folium
 
 from location import create_location
 
-#@st.cache()
+@st.cache(hash_funcs={'builtins.function': hash})
 def create_map(text_archive, prediction):
     # creating location df
     if text_archive[-1] == "":
