@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 
 import spacy
-spacy.cli.download("en_core_web_sm")
+spacy.load("../en_core_web_sm/en_core_web_sm-3.4.1")
 
 import nltk
 nltk.download('punkt')
