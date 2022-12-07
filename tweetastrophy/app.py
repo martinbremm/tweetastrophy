@@ -57,7 +57,7 @@ text_archive.append(txt)
 text_archive = list(set(text_archive))
 
 # adding map based on the previous texts the person has entered
-map = create_map(text_archive, prediction)
+create_map(text_archive, prediction)
 
 # render Folium map in Streamlit
-st_folium(map, width=2000, height=600)
+#st_folium(map, width=2000, height=600)
