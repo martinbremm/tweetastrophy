@@ -6,8 +6,8 @@ from map import create_map
 
 text_archive = []
 
-st.write(st.session_state)
-
+if 'zoom' not in st.session_state:
+    st.session_state['zoom'] = 0
 
 
 # frontend style descriptors
