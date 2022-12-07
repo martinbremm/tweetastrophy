@@ -7,13 +7,11 @@ from location import create_location
 
 @st.experimental_memo(suppress_st_warning=True)
 def create_map(text_archive, prediction):
-    # creating location df
-    if text_archive[-1] == "":
+    # initialize empty map
+    if text_archive == []:
         map = folium.Map(location=[0,0],
                     tiles="cartodbpositron",
                     zoom_start=3, control_scale=True)
-
-        text_archive.remove("")
 
     else:
 
