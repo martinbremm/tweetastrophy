@@ -82,6 +82,4 @@ def create_map(text_archive, prediction):
 
         st_data = st_folium(map, width=1200, height=600)
 
-        print(st.session_state())
-
         return st_data

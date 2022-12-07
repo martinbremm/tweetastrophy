@@ -6,6 +6,10 @@ from map import create_map
 
 text_archive = []
 
+st.write(st.session_state)
+
+
+
 # frontend style descriptors
 hide_menu = """
 <style>
@@ -33,8 +37,6 @@ with c:
     txt = st.text_area('Enter your tweet here 👇🏼', '')
     st.button('Predict')
 
-# clearing cache
-#create_map.clear()
 
 # creating prediction value
 prediction = get_prediction(txt)
@@ -62,5 +64,4 @@ text_archive = list(set(text_archive))
 # adding map based on the previous texts the person has entered
 create_map(text_archive, prediction)
 
-# render Folium map in Streamlit
-#st_folium(map, width=2000, height=600)
+st.write(st.session_state)
