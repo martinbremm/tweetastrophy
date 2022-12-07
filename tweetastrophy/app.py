@@ -1,7 +1,10 @@
+import pandas as pd
 import streamlit as st
+import folium
 from streamlit_folium import st_folium
-from predict import get_prediction
+from location import create_location
 from map import create_map
+from predict import get_prediction
 
 
 text_archive = []
@@ -56,8 +59,11 @@ text_archive.append(txt)
 
 text_archive = list(set(text_archive))
 
+text_df = pd.DataFrame.from_dict(data={"text": text_archive})
+
+locations_df = create_location(text_df)
 # adding map based on the previous texts the person has entered
-st_data = create_map(text_archive, prediction)
+st_data = create_map(text_archive=text_archive, prediction=prediction, locations_df=locations_df)
 
 # render Folium map in Streamlit
 # st_data = st_folium(map, width=2000, height=600)

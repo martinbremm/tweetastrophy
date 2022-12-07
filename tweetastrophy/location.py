@@ -18,11 +18,11 @@ import requests
 import string
 import re
 
-from streamlit_folium import st_folium
+import streamlit as st
 
 
 
-
+#@st.cache(allow_output_mutation=True, hash_funcs={"builtins.function": extract_location})
 def extract_location(text):
 
     place_entity = locationtagger.find_locations(text = text)
@@ -43,6 +43,7 @@ def extract_location(text):
               dic[k] = ['Unknown']
     return dic
 
+#@st.cache(allow_output_mutation=True)
 def extract_gps(country, city):
 
     loc  = Nominatim(user_agent="tweetastrophy")
@@ -58,6 +59,7 @@ def extract_gps(country, city):
     else:
         return 0,0
 
+#@st.cache(allow_output_mutation=True)
 def get_area(city):
     url = f"https://en.wikipedia.org/wiki/{city}"
     r = requests.get(url)
@@ -76,6 +78,7 @@ def get_area(city):
     except:
         return 'NotFound'
 
+#@st.cache(allow_output_mutation=True)
 def create_location(df):
 
     df_dict = df.to_dict("records")
