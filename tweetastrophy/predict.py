@@ -1,11 +1,9 @@
 
-#imports
-
 from preprocessing import text_preprocessing
 import joblib
+import streamlit as st
 
-
-
+@st.cache(allow_output_mutation=True)
 def get_prediction(text):
 
     model = joblib.load('./tweetastrophy/trained_model.joblib')
