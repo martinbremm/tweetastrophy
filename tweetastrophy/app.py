@@ -87,6 +87,11 @@ else:
 
     for row in df_dict:
 
+        if prediction == "The tweet is Disaster Tweet":
+            color = "#EE4B2B" # red
+        else:
+            color = "90ee90" # green
+
         # checking for rows without coordinates
         if row["lat"] == 0.0 or row["lon"] == 0.0:
             continue
@@ -99,7 +104,7 @@ else:
                 radius=row["size"]
 
             folium.Circle(location=[row["lat"], row["lon"]], radius=radius, popup=row["city"],
-                                color="#EE4B2B", fill=True, fill_color="#EE4B2B").add_to(map) # red
+                                color=color, fill=True, fill_color=color).add_to(map) # red
 
         # region data available
         elif (row["region"] != "Unknown") & (row["city"] == "Unknown"):
@@ -109,7 +114,7 @@ else:
                 radius=row["size"]
 
             folium.Circle(location=[row["lat"], row["lon"]], radius=radius, popup=row["region"],
-                                color="#90ee90", fill=True, fill_color="#90ee90").add_to(map) # green
+                                color=color, fill=True, fill_color=color).add_to(map) # green
 
         # country data available
         elif (row["country"] != "Unknown") & (row["region"] == "Unknown") & (row["city"] == "Unknown"):
@@ -119,7 +124,7 @@ else:
                 radius=row["size"]
 
             folium.Circle(location=[row["lat"], row["lon"]], radius=660000, popup=row["country"],
-                                color="#00008b", fill=True, fill_color="#00008b").add_to(map) # blue
+                                color=color, fill=True, fill_color=color).add_to(map) # blue
 
     # adding automatic zoom to last df
     sw = locations_df[['lat', 'lon']].min().values.tolist()
