@@ -1,5 +1,4 @@
 import streamlit as st
-from streamlit import caching
 from streamlit_folium import st_folium
 from predict import get_prediction
 from map import create_map
@@ -35,7 +34,7 @@ with c:
     st.button('Predict')
 
 # clearing cache
-caching.clear_cache()
+create_map.clear()
 
 # creating prediction value
 prediction = get_prediction(txt)
