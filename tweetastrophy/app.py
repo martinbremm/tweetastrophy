@@ -4,10 +4,10 @@ from streamlit_folium import st_folium
 from predict import get_prediction
 from map import create_map
 
-create_map.clear()
-
+# initializing text archive
 text_archive = []
 
+st.set_page_config(page_title='Tweetastrophy', page_icon=':tada:', layout='wide')
 
 # frontend style descriptors
 hide_menu = """
@@ -15,12 +15,28 @@ hide_menu = """
 #MainMenu {
     visibility:hidden;
 }
+
 footer {
     visibility:hidden;
 }
 </style>
 """
-st.set_page_config(page_title='Tweetastrophy', page_icon=':tada:', layout='wide')
+
+st.markdown("""
+<style>
+.big-font {
+    font-size:30px !important;
+}
+</style>
+""", unsafe_allow_html=True)
+
+st.markdown("""
+<style>
+.mid-font {
+    font-size:20px !important;
+}
+</style>
+""", unsafe_allow_html=True)
 
 a, b = st.columns([1, 20])
 
@@ -62,5 +78,5 @@ text_archive = list(set(text_archive))
 # adding map based on the previous texts the person has entered
 st_data = create_map(text_archive, prediction)
 
-# render Folium map in Streamlit
-# st_data = st_folium(map, width=2000, height=600)
+
+create_map.clear()
