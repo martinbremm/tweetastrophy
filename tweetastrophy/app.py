@@ -89,9 +89,10 @@ elif prediction == 'The tweet is Non Disaster Tweet':
         st.markdown('<p class="big-font"> Tweet is not a disaster &#x2705;</p>', unsafe_allow_html=True)
 
 
+if txt == "elon musk":
+    st.image("tweetastrophy/elon_meme.png")
 
-
-if prediction:
+elif prediction:
     # adding map based on the previous texts the person has entered
     create_map(text_archive, prediction)
 
