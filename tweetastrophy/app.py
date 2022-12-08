@@ -3,6 +3,7 @@ import folium
 from streamlit_folium import st_folium
 from predict import get_prediction
 from map import create_map
+from preprocessing import text_preprocessing
 
 # initializing text archive
 text_archive = []
@@ -71,7 +72,8 @@ def local_css(file_name):
 
 local_css("tweetastrophy/config.toml")
 
-
+# preprocessing text
+txt = text_preprocessing(txt)
 # creating text archive of all the txts
 text_archive.append(txt)
 
