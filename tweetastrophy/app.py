@@ -5,7 +5,7 @@ from predict import get_prediction
 from map import create_map
 
 # initializing text archive
-text_archive = []
+text_archive = [""]
 
 st.set_page_config(page_title='Tweetastrophy', page_icon=':tada:', layout='wide')
 
