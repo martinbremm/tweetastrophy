@@ -13,6 +13,9 @@ def create_map(text_archive, prediction):
                     tiles="cartodbpositron",
                     zoom_start=3, control_scale=True)
 
+        return  st_folium(map, width=1200, height=600, returned_objects=[])
+
+
     else:
 
         text_df = pd.DataFrame.from_dict(data={"text": text_archive})
@@ -39,7 +42,11 @@ def create_map(text_archive, prediction):
 
             # checking for rows without coordinates
             if row["lat"] == 0.0 or row["lon"] == 0.0:
-                continue
+                map = folium.Map(location=[0,0],
+                    tiles="cartodbpositron",
+                    zoom_start=3, control_scale=True)
+
+                return  st_folium(map, width=1200, height=600, returned_objects=[])
 
             # city data available
             elif row["city"] != "Unknown":

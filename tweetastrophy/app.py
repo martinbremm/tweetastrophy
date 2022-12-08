@@ -5,7 +5,7 @@ from predict import get_prediction
 from map import create_map
 
 # initializing text archive
-text_archive = [""]
+text_archive = []
 
 st.set_page_config(page_title='Tweetastrophy', page_icon=':tada:', layout='wide')
 
@@ -38,29 +38,31 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-a, b = st.columns([1, 20])
 
-with a:
+with st.sidebar:
+    a, b = st.columns([1, 20])
+    with a:
+        st.text("")
+        st.image("tweetastrophy/twitter_logo.png", width=50)
+    with b:
+        st.title("Tweetastrophy")
+
     st.text("")
-    st.image("tweetastrophy/twitter_logo.png", width=50)
-with b:
-    st.title("Tweetastrophy")
-
-c, d = st.columns([500, 400])
-
-with c:
-    txt = st.text_area('Enter your tweet here 👇🏼', '')
-    st.button('Predict')
+    with st.container() :
+        #st.markdown('<p class="mid-font"> Enter your tweet here 👇🏼 !!</p>', unsafe_allow_html=True)
+        st.info('Enter your tweet here 👇🏼 !!')
+        txt = st.text_area('', placeholder='. . .')
+        st.button('Predict')
 
 # creating prediction value
 prediction = get_prediction(txt)
 
-with d:
-    st.write('')
-    st.write('')
-    st.write('')
-    st.write('')
-    st.write('', prediction)
+prediction_container = st.container()
+col1, col2 = st.columns([8,17])
+
+# creating prediction value
+prediction = get_prediction(txt)
+
 
 
 def local_css(file_name):
@@ -75,8 +77,24 @@ text_archive.append(txt)
 
 text_archive = list(set(text_archive))
 
-# adding map based on the previous texts the person has entered
-st_data = create_map(text_archive, prediction)
+if prediction == 'The tweet is Disaster Tweet':
+    with col1:
+        st.markdown('<p class="big-font"> Tweet is a disaster &#9888;&#65039; </p>', unsafe_allow_html=True)
 
+
+elif prediction == 'The tweet is Non Disaster Tweet':
+    with col1:
+        st.markdown('<p class="big-font"> Tweet is not a disaster &#x2705;</p>', unsafe_allow_html=True)
+
+
+
+
+if prediction:
+    # adding map based on the previous texts the person has entered
+    create_map(text_archive, prediction)
+
+else:
+    st.markdown('<p class="big-font">Waiting for your tweet.. &#128564; </p>', unsafe_allow_html=True)
+    create_map(text_archive, prediction)
 
 create_map.clear()
