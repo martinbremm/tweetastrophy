@@ -2,12 +2,14 @@ import streamlit as st
 from streamlit_folium import st_folium
 from predict import get_prediction
 from map import create_map
+import folium
 
 
-text_archive = []
+if 'txt' not in st.session_state:
+	st.session_state.txt = [""]
 
-if 'zoom' not in st.session_state:
-    st.session_state['zoom'] = 0
+def text_adding():
+    st.write(st.session_state)
 
 
 # frontend style descriptors
@@ -34,7 +36,9 @@ with b:
 c, d = st.columns([500, 400])
 
 with c:
-    txt = st.text_area('Enter your tweet here 👇🏼', '')
+    txt = st.text_area('Enter your tweet here 👇🏼', '', on_change=text_adding())
+    st.session_state.txt.append(txt)
+
     st.button('Predict')
 
 
@@ -57,11 +61,13 @@ local_css("tweetastrophy/config.toml")
 
 
 # creating text archive of all the txts
-text_archive.append(txt)
 
-text_archive = list(set(text_archive))
+if prediction:
+    # adding map based on the previous texts the person has entered
+    #create_map(st.session_state.txt, prediction)
+    st.write("map")
 
-# adding map based on the previous texts the person has entered
-create_map(text_archive, prediction)
-
-st.write(st.session_state)
+else:
+    map = folium.Map(location=[0,0],
+                    tiles="cartodbpositron",
+                    zoom_start=3, control_scale=True)
