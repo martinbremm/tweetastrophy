@@ -8,7 +8,7 @@ from location import create_location
 @st.experimental_memo(suppress_st_warning=True)
 def create_map(text_archive, prediction):
     # initialize empty map
-    if text_archive == []:
+    if text_archive == [""]:
         map = folium.Map(location=[0,0],
                     tiles="cartodbpositron",
                     zoom_start=3, control_scale=True)
