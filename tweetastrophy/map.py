@@ -6,7 +6,7 @@ from streamlit_folium import st_folium
 from location import create_location
 
 @st.experimental_memo(suppress_st_warning=True)
-def create_map(text_archive, prediction):
+def create_map(text_archive, prediction, encoded):
     # initialize empty map
     if text_archive == [""]:
         map = folium.Map(location=[0,0],
@@ -23,11 +23,14 @@ def create_map(text_archive, prediction):
         # looping over text entries in text archive and extracting locations
         locations_df = create_location(text_df)
 
+        html = '<img src="data:image/png;base64,{}">'.format
+
 
         # creating basic map in folium
         map = folium.Map(location=[locations_df.lat.mean(), locations_df.lon.mean()],
                         tiles="cartodbpositron",
                         zoom_start=5, min_zoom=3, control_scale=True)
+        iframe = folium.IFrame(html(encoded.decode('UTF-8')), width=542, height=345)
 
         # mapping circles to df in DataFrame
         df_dict = locations_df.to_dict("records")
@@ -55,17 +58,17 @@ def create_map(text_archive, prediction):
                 else:
                     radius=row["size"]
 
-                folium.Circle(location=[row["lat"], row["lon"]], radius=radius, popup=row["city"],
+                folium.Circle(location=[row["lat"], row["lon"]], radius=radius, popup=folium.Popup(iframe,max_width=542),
                                     color=color, fill=True, fill_color=color).add_to(map) # red
 
-            # region data available
+                ## region data available
             elif (row["region"] != "Unknown") & (row["city"] == "Unknown"):
                 if row["size"] == "Not Found":
                     radius=660000
                 else:
                     radius=row["size"]
 
-                folium.Circle(location=[row["lat"], row["lon"]], radius=radius, popup=row["region"],
+                folium.Circle(location=[row["lat"], row["lon"]], radius=radius, popup=folium.Popup(iframe,max_width=542),
                                     color=color, fill=True, fill_color=color).add_to(map) # green
 
             # country data available
@@ -75,7 +78,7 @@ def create_map(text_archive, prediction):
                 else:
                     radius=row["size"]
 
-                folium.Circle(location=[row["lat"], row["lon"]], radius=660000, popup=row["country"],
+                folium.Circle(location=[row["lat"], row["lon"]], radius=660000, popup=folium.Popup(iframe,max_width=542),
                                     color=color, fill=True, fill_color=color).add_to(map) # blue
 
         # adding automatic zoom to last df

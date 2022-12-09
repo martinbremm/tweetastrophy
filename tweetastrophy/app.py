@@ -4,6 +4,7 @@ from streamlit_folium import st_folium
 from predict import get_prediction
 from map import create_map
 from preprocessing import text_preprocessing
+from Popup_image import create_popup
 
 # initializing text archive
 text_archive = []
@@ -51,7 +52,7 @@ with st.sidebar:
     st.text("")
     with st.container() :
         #st.markdown('<p class="mid-font"> Enter your tweet here 👇🏼 !!</p>', unsafe_allow_html=True)
-        st.info('Enter your tweet here 👇🏼 !!')
+        st.info('Enter your tweet here 👇🏼')
         txt = st.text_area('', placeholder='. . .')
         st.button('Predict')
 
@@ -64,6 +65,8 @@ col1, col2 = st.columns([8,17])
 # creating prediction value
 prediction = get_prediction(txt)
 
+image_path= "tweetastrophy/tweety.jpg"
+encoded = create_popup(txt, image_path)
 
 
 def local_css(file_name):
@@ -94,10 +97,10 @@ if txt == "elon musk":
 
 elif prediction:
     # adding map based on the previous texts the person has entered
-    create_map(text_archive, prediction)
+    create_map(text_archive, prediction,encoded)
 
 else:
     st.markdown('<p class="big-font">Waiting for your tweet.. &#128564; </p>', unsafe_allow_html=True)
-    create_map(text_archive, prediction)
+    create_map(text_archive, prediction,encoded)
 
 create_map.clear()
