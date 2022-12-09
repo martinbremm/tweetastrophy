@@ -56,6 +56,19 @@ with st.sidebar:
         txt = st.text_area('', placeholder='. . .')
         st.button('Predict')
 
+    with st.container() :
+        st.write('')
+        st.write('')
+        option = st.selectbox('Get Tweets By:',options=('Hashtag','Location', 'Keyword'), )
+        if option == 'Location':
+
+            st.text_area(label='Tweets By Location:',  value="""BREAKING: Two military planes collided and crashed to the ground Saturday during a Dallas air show. It was unclear how many people were on board the aircraft or if anyone on the ground was hurt.
+                         ----------
+                         She's smiling like she's so proud she killed someone.
+                         ----------
+                         In Russia there is a large fire blazing near the Kremlin building in the centre of Moscow. No further details available. #Ukraine #Russia #Putin #RussiaIsATerroristState #UkraineRussiaWar""", )
+
+
 # creating prediction value
 prediction = get_prediction(txt)
 
