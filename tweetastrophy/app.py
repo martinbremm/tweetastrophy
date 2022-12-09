@@ -6,10 +6,14 @@ from map import create_map
 from preprocessing import text_preprocessing
 from Popup_image import create_popup
 
-# initializing text archive
-text_archive = []
+
 
 st.set_page_config(page_title='Tweetastrophy', page_icon=':tada:', layout='wide')
+
+if 'txt' not in st.session_state:
+    st.session_state['txt'] = []
+if 'pred' not in st.session_state:
+    st.session_state['pred'] = []
 
 # frontend style descriptors
 hide_menu = """
@@ -91,9 +95,12 @@ local_css("tweetastrophy/config.toml")
 # preprocessing text
 txt = text_preprocessing(txt)
 # creating text archive of all the txts
-text_archive.append(txt)
+st.session_state['txt'].append(txt)
+st.session_state['pred'].append(prediction)
 
-text_archive = list(set(text_archive))
+# preprocessing text
+txt = text_preprocessing(txt)
+
 
 if prediction == 'The tweet is Disaster Tweet':
     with col1:
@@ -110,10 +117,15 @@ if txt == "elon musk":
 
 elif prediction:
     # adding map based on the previous texts the person has entered
-    create_map(text_archive, prediction,encoded)
+    create_map(st.session_state['txt'], st.session_state['pred'], encoded)
 
 else:
     st.markdown('<p class="big-font">Waiting for your tweet.. &#128564; </p>', unsafe_allow_html=True)
-    create_map(text_archive, prediction,encoded)
+    create_map(st.session_state['txt'], st.session_state['pred'], encoded)
+
+if "" in st.session_state['txt']:
+    st.session_state['txt'].remove("")
+if "" in st.session_state['pred']:
+    st.session_state['pred'].remove("")
 
 create_map.clear()
