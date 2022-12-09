@@ -8,6 +8,8 @@ from location import extract_gps, extract_location
 from predict import get_prediction
 import numpy as np
 import pandas as pd
+from Popup_image import create_popup
+
 
 st.set_page_config(page_title='Tweetastrophy', page_icon=':tada:', layout='wide')
 
@@ -48,10 +50,12 @@ def local_css(file_name):
 
 local_css("tweetastrophy/config.toml")
 
-@st.cache(suppress_st_warning=True, max_entries=100000,
+@st.cache(suppress_st_warning=True, max_entries=10000,
           hash_funcs={'folium.folium.Map':hash})
 
-def plot_map(text):
+
+def plot_map(text,encoded):
+
     text_archive = []
 
     # creating location df
@@ -74,29 +78,53 @@ def plot_map(text):
     df = pd.concat([text_df, locations_df], axis=1)
 
     # creating basic map in folium
+    html = '<img src="data:image/png;base64,{}">'.format
+    iframe = folium.IFrame(html(encoded.decode('UTF-8')), width=542, height=345)
+    # popup = folium.Popup(iframe, max_width=400)
+
 
     map = folium.Map(location=[df.lat,
                             df.lon],
                     tiles="cartodbpositron",
-                    zoom_start=3, control_scale=True)
+                    zoom_start=5, control_scale=True)
+
+    popup = folium.Popup(iframe,max_width=542)
 
     # mapping circles to df in DataFrame
     for index, row in df.iterrows():
+         # determining the color of the circle
+        if prediction == "The tweet is Disaster Tweet":
+            color = "#EE4B2B" # red
+        else:
+            color = "#008000" # green
+
+
         # checking for rows without coordinates
         if row["lat"] == 0.0 or row["lon"] == 0.0:
             continue
 
         elif row["city"] != "Unknown":
-            folium.Circle(location=[row["lat"], row["lon"]], radius=10000, popup=row["city"],
-                                color="#EE4B2B", fill=True, fill_color="#EE4B2B").add_to(map) # red
+
+            folium.Circle(location=[row["lat"], row["lon"]], radius=10000,popup=popup,
+                                color=color, fill=True, fill_color=color).add_to(map) # red
+
+
+
+
         elif (row["region"] != "Unknown") & (row["city"] == "Unknown"):
 
-            folium.Circle(location=[row["lat"], row["lon"]], radius=660000, popup=row["region"],
-                                color="#90ee90", fill=True, fill_color="#90ee90").add_to(map) # green
+            folium.Circle(location=[row["lat"], row["lon"]], radius=660000,popup=popup,
+                                color=color, fill=True, fill_color=color).add_to(map) # green
+
+
+
 
         elif (row["country"] != "Unknown") & (row["region"] == "Unknown") & (row["city"] == "Unknown"):
-            folium.Circle(location=[row["lat"], row["lon"]], radius=660000, popup=row["country"],
-                                color="#00008b", fill=True, fill_color="#00008b").add_to(map) # blue
+            folium.Circle(location=[row["lat"], row["lon"]], radius=660000,popup=popup,
+                                color=color, fill=True, fill_color=color).add_to(map) # blue
+
+
+
 
     # adding automatic zoom to last df
     sw = df[['lat', 'lon']].min().values.tolist()
@@ -106,6 +134,8 @@ def plot_map(text):
     # render Folium map in Streamlit
 
     return map
+
+
 with st.sidebar:
     a, b = st.columns([2, 30])
     with a:
@@ -121,26 +151,29 @@ with st.sidebar:
         txt = st.text_area('', placeholder='. . .')
         st.button('Predict')
 
+image_path= 'tweetastrophy/tweety.jpg'
+encoded = create_popup(txt, image_path)
+
 prediction = get_prediction(txt)
 
-prediction_container = st.container()
-col1, col2 = st.columns([8,17])
+#prediction_container = st.container()
+#col1, col2 = st.columns([8,17])
 
 if prediction == 'The tweet is Disaster Tweet':
-    with col1:
-        st.markdown('<p class="big-font"> The tweet is Disaster Tweet !!</p>', unsafe_allow_html=True)
-    with col2:
-        st.image("tweetastrophy/warning.png",
-            width=40)
-    st_folium(plot_map(txt), width=2000)
+    #with col1:
+    st.markdown('<p class="big-font"> The tweet is Disaster Tweet !!</p>', unsafe_allow_html=True)
+    # with col2:
+    #     st.image("tweetastrophy/warning.png",
+    #         width=40)
+    st_folium(plot_map(txt,encoded), width=2000)
 
 elif prediction == 'The tweet is Non Disaster Tweet':
-    with col1:
-        st.markdown('<p class="big-font"> The tweet is Non Disaster Tweet !!</p>', unsafe_allow_html=True)
-    with col2:
-        st.image("tweetastrophy/safety-icon.png",
-            width=40)
-    st_folium(plot_map(txt), width=2000)
+    #with col1:
+    st.markdown('<p class="big-font"> The tweet is Non Disaster Tweet !!</p>', unsafe_allow_html=True)
+    # with col2:
+    #     st.image("tweetastrophy/safety-icon.png",
+    #         width=40)
+    st_folium(plot_map(txt,encoded), width=2000)
 
 else:
     st.markdown('<p class="big-font">Waiting for your tweet.. &#128564; </p>', unsafe_allow_html=True)
