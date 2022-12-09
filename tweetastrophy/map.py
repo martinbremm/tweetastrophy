@@ -2,6 +2,8 @@ import pandas as pd
 import streamlit as st
 import folium
 from streamlit_folium import st_folium
+from predict import get_prediction
+from preprocessing import text_preprocessing
 
 from location import create_location
 
@@ -84,6 +86,13 @@ def create_map(text_archive, prediction):
 
         map.fit_bounds([sw, ne], padding=(1,1), max_zoom=8)
 
-        st_data = st_folium(map, width=1200, height=600, returned_objects=[])
+        st_data = st_folium(map, width=1200, height=1200, returned_objects=[])
 
         return st_data
+
+text_archive = ["Cologne", "Berlin", "Hamburg", "Munich"]
+
+text_archive = [text_preprocessing(txt) for txt in text_archive]
+predictions = [get_prediction(txt) for txt in text_archive]
+
+create_map(text_archive=text_archive, prediction=predictions)
