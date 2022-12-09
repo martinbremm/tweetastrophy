@@ -10,7 +10,7 @@ from location import create_location
 @st.experimental_memo(suppress_st_warning=True)
 def create_map(text_archive, prediction):
     # initialize empty map
-    if text_archive == [""]:
+    if text_archive[-1] == "":
         map = folium.Map(location=[0,0],
                     tiles="cartodbpositron",
                     zoom_start=3, control_scale=True)
@@ -90,9 +90,9 @@ def create_map(text_archive, prediction):
 
         return st_data
 
-text_archive = ["Cologne", "Berlin", "Hamburg", "Munich"]
+"""text_archive = ["Cologne", "Berlin", "Hamburg", "Munich"]
 
 text_archive = [text_preprocessing(txt) for txt in text_archive]
 predictions = [get_prediction(txt) for txt in text_archive]
 
-create_map(text_archive=text_archive, prediction=predictions)
+create_map(text_archive=text_archive, prediction=predictions)"""
