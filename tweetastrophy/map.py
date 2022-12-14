@@ -34,12 +34,12 @@ def create_map(text_archive, prediction):
         # mapping circles to df in DataFrame
         df_dict = locations_df.to_dict("records")
 
-        for row in df_dict:
+        for idx, row in enumerate(df_dict):
 
             # determining the color of the circle
-            if prediction == "The tweet is Disaster Tweet":
+            if prediction[idx] == "The tweet is Disaster Tweet":
                 color = "#EE4B2B" # red
-            else:
+            elif prediction[idx] == "The tweet is Non Disaster Tweet":
                 color = "#008000" # green
 
             # checking for rows without coordinates
