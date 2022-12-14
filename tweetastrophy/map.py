@@ -48,7 +48,8 @@ def create_map(text_archive, prediction):
                     tiles="cartodbpositron",
                     zoom_start=3, control_scale=True)
 
-                return  st_folium(map, width=1200, height=600, returned_objects=[])
+                continue
+                #return  st_folium(map, width=1200, height=600, returned_objects=[])
 
             # city data available
             elif row["city"] != "Unknown":
@@ -58,7 +59,7 @@ def create_map(text_archive, prediction):
                     radius=row["size"]
 
                 folium.Circle(location=[row["lat"], row["lon"]], radius=radius, popup=row["city"],
-                                    color=color, fill=True, fill_color=color).add_to(map) # red
+                                    color=color, fill=True, fill_color=color).add_to(map)
 
             # region data available
             elif (row["region"] != "Unknown") & (row["city"] == "Unknown"):
@@ -68,7 +69,7 @@ def create_map(text_archive, prediction):
                     radius=row["size"]
 
                 folium.Circle(location=[row["lat"], row["lon"]], radius=radius, popup=row["region"],
-                                    color=color, fill=True, fill_color=color).add_to(map) # green
+                                    color=color, fill=True, fill_color=color).add_to(map)
 
             # country data available
             elif (row["country"] != "Unknown") & (row["region"] == "Unknown") & (row["city"] == "Unknown"):
@@ -78,7 +79,7 @@ def create_map(text_archive, prediction):
                     radius=row["size"]
 
                 folium.Circle(location=[row["lat"], row["lon"]], radius=660000, popup=row["country"],
-                                    color=color, fill=True, fill_color=color).add_to(map) # blue
+                                    color=color, fill=True, fill_color=color).add_to(map)
 
         # adding automatic zoom to last df
         sw = locations_df[['lat', 'lon']].min().values.tolist()
@@ -89,10 +90,3 @@ def create_map(text_archive, prediction):
         st_data = st_folium(map, width=1200, height=1200, returned_objects=[])
 
         return st_data
-
-"""text_archive = ["Cologne", "Berlin", "Hamburg", "Munich"]
-
-text_archive = [text_preprocessing(txt) for txt in text_archive]
-predictions = [get_prediction(txt) for txt in text_archive]
-
-create_map(text_archive=text_archive, prediction=predictions)"""
