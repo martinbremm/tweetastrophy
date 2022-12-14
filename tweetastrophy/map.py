@@ -34,6 +34,9 @@ def create_map(text_archive, prediction):
         # mapping circles to df in DataFrame
         df_dict = locations_df.to_dict("records")
 
+        st.write(df_dict)
+        st.write(prediction)
+
         for idx, row in enumerate(df_dict):
 
             # determining the color of the circle
