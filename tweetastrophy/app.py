@@ -85,6 +85,7 @@ txt = text_preprocessing(txt)
 st.session_state['txt'].append(txt)
 st.session_state['pred'].append(prediction)
 
+st.write(st.session_state['pred'])
 
 
 if prediction == 'The tweet is Disaster Tweet':
