@@ -32,15 +32,18 @@ def extract_location(text):
         'city': place_entity.cities,
         'place': place_entity.other}
 
-    if len(dic['country']) == 0:
-        dic['country'] = [country for country in place_entity.country_cities.keys()]
-        if len(dic['country']) == 0:
-            dic['country'] = [country for country in place_entity.country_regions.keys()]
+    if place_entity.country_cities:
+        dic.update({'country': list(place_entity.country_cities.keys())[0]})
+    else:
+        dic.update({'country': list(place_entity.country_regions.keys())[0]})
 
-
-    for k in dic.keys():
-        if len(dic[k]) == 0:
-              dic[k] = ['Unknown']
+    for k, v in dic.items():
+        # checking if api does not return anything
+        if v == []:
+            dic[k] = "Unknown"
+        # removing lists
+        elif type(v) == list:
+            dic[k] = v[0]
     return dic
 
 def extract_gps(country, city):
