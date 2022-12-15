@@ -76,9 +76,10 @@ local_css("tweetastrophy/config.toml")
 
 # preprocessing text
 txt = text_preprocessing(txt)
+
 # creating text archive of all the txts
-st.session_state['txt'] = txt
-st.session_state['pred'] = prediction
+st.session_state['txt'].append(txt)
+st.session_state['pred'].append(prediction)
 
 st.write(st.session_state['pred'])
 
