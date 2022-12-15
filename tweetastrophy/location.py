@@ -24,8 +24,6 @@ import re
 from streamlit_folium import st_folium
 
 
-
-
 def extract_location(text):
 
     place_entity = locationtagger.find_locations(text = text)
@@ -35,6 +33,7 @@ def extract_location(text):
         'city': place_entity.cities,
         'place': place_entity.other}
 
+    # alternative country data
     if place_entity.country_cities:
         dic.update({'country': list(place_entity.country_cities.keys())[0]})
     else:
@@ -50,19 +49,25 @@ def extract_location(text):
 
     return dic
 
+
 def extract_gps(country, city):
 
     loc  = Nominatim(user_agent="tweetastrophy")
 
+    # getting location of city
     if city != 'Unknown':
         getLoc = loc.geocode(city, exactly_one=True, timeout=10)
         return getLoc.latitude, getLoc.longitude
 
+    # getting location of country
     elif country != 'Unknown':
         getLoc = loc.geocode(country, exactly_one=True, timeout=10)
         return getLoc.latitude, getLoc.longitude
+
+    # returning default if there is no data on country nor city
     else:
         return 0,0
+
 
 def get_area(city):
     url = f"https://en.wikipedia.org/wiki/{city}"
@@ -81,6 +86,7 @@ def get_area(city):
                 return 'NotFound'
     except:
         return 'NotFound'
+
 
 def create_location(text_df):
 
@@ -106,7 +112,6 @@ def create_location(text_df):
             dic['size'] = get_area(dic['country'])
 
         dictionary_list.append(dic)
-
 
     locations_df = pd.DataFrame.from_dict(data=dictionary_list)
 
