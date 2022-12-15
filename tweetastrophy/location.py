@@ -2,7 +2,10 @@ import numpy as np
 import pandas as pd
 
 import spacy
-spacy.cli.download("en_core_web_sm")
+try:
+    assert spacy.util.is_package("en_core_web_sm")
+except AssertionError:
+    spacy.cli.download("en_core_web_sm")
 
 import nltk
 nltk.download('punkt')
@@ -44,12 +47,12 @@ def extract_location(text):
         # removing lists
         elif type(v) == list:
             dic[k] = v[0]
+
     return dic
 
 def extract_gps(country, city):
 
     loc  = Nominatim(user_agent="tweetastrophy")
-
 
     if city != 'Unknown':
         getLoc = loc.geocode(city, exactly_one=True, timeout=10)
@@ -79,9 +82,9 @@ def get_area(city):
     except:
         return 'NotFound'
 
-def create_location(df):
+def create_location(text_df):
 
-    df_dict = df.to_dict("records")
+    df_dict = text_df.to_dict("records")
 
     dictionary_list = []
     for row in df_dict:
@@ -89,13 +92,9 @@ def create_location(df):
 
         # adding geo info
         dic = extract_location(row["text"])
-        dic["region"] = dic["region"][0]
-        dic["country"] = dic["country"][0]
-        dic["city"] = dic["city"][0]
 
         # adding gps
         dic['lat'], dic['lon'] = extract_gps(dic['country'],dic['city'])
-        dictionary_list.append(dic)
 
         # adding area size to the dictionary
         if dic['city'] == 'Unknown' and dic['country'] != 'Unknown':
