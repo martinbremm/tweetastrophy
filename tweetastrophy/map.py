@@ -9,17 +9,16 @@ from location import create_location
 
 @st.experimental_memo(suppress_st_warning=True)
 def create_map(text_archive, prediction):
-    # initialize empty map
-    if text_archive[-1] == "":
+
+    # initialize empty map if no input or no previous input
+    if text_archive == "" | text_archive[-1] == "":
         map = folium.Map(location=[0,0],
                     tiles="cartodbpositron",
                     zoom_start=3, control_scale=True)
 
         return  st_folium(map, width=1200, height=600, returned_objects=[])
 
-
     else:
-
         text_df = pd.DataFrame.from_dict(data={"text": text_archive})
 
         # looping over text entries in text archive and extracting locations
