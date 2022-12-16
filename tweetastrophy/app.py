@@ -81,7 +81,6 @@ txt = text_preprocessing(txt)
 st.session_state['txt'].append(txt)
 st.session_state['pred'].append(prediction)
 
-st.write(st.session_state['pred'])
 
 # prediction output
 if prediction == 'The tweet is Disaster Tweet':
@@ -104,7 +103,6 @@ else:
     st.markdown('<p class="big-font">Waiting for your tweet.. &#128564; </p>', unsafe_allow_html=True)
     create_map(st.session_state['txt'], st.session_state['pred'])
 
-st.write(st.session_state)
 
 # clearing invalid entries from session state
 if "" in st.session_state['txt']:
