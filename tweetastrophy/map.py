@@ -25,9 +25,9 @@ def create_map(text_archive, prediction):
     else:
         text_df = pd.DataFrame.from_dict(data={"text": text_archive})
 
-        # looping over text entries in text archive and extracting locations
         locations_df = create_location(text_df)
 
+        df = pd.concat([text_df, locations_df], axis=1)
 
         # creating basic map in folium
         map = folium.Map(location=[locations_df.lat.mean(), locations_df.lon.mean()],
@@ -35,11 +35,10 @@ def create_map(text_archive, prediction):
                         zoom_start=5, min_zoom=3, control_scale=True)
 
         # mapping circles to df in DataFrame
-        df_dict = locations_df.to_dict("records")
+        df_dict = df.to_dict("records")
 
-        st.write(df_dict)
-        st.write(prediction)
 
+        # looping over combined df
         for idx, row in enumerate(df_dict):
 
             # determining the color of the circle
