@@ -85,6 +85,7 @@ st.session_state['pred'].append(prediction)
 if prediction == 'The tweet is Disaster Tweet':
     with col1:
         st.markdown('<p class="big-font"> Tweet is a disaster &#9888;&#65039; </p>', unsafe_allow_html=True)
+    create_map(st.session_state['txt'], st.session_state['pred'])
 
 elif prediction == 'The tweet is Non Disaster Tweet':
     with col1:
