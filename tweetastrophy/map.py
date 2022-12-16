@@ -23,6 +23,7 @@ def create_map(text_archive, prediction):
             return  st_folium(map, width=1200, height=600, returned_objects=[])
 
     else:
+        st.write("Start")
         text_df = pd.DataFrame.from_dict(data={"text": text_archive})
 
         locations_df = create_location(text_df)
