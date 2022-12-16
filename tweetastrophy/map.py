@@ -37,7 +37,6 @@ def create_map(text_archive, prediction):
         # mapping circles to df in DataFrame
         df_dict = df.to_dict("records")
 
-
         # looping over combined df
         for idx, row in enumerate(df_dict):
 
@@ -92,6 +91,4 @@ def create_map(text_archive, prediction):
 
         map.fit_bounds([sw, ne], padding=(1,1), max_zoom=8)
 
-        st_data = st_folium(map, width=1200, height=1200, returned_objects=[])
-
-        return st_data
+        return st_folium(map, width=1200, height=1200, returned_objects=[])
