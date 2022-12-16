@@ -37,6 +37,8 @@ def create_map(text_archive, prediction):
         # mapping circles to df in DataFrame
         df_dict = df.to_dict("records")
 
+        st.write(df_dict)
+
         # looping over combined df
         for idx, row in enumerate(df_dict):
 
@@ -65,7 +67,6 @@ def create_map(text_archive, prediction):
                 folium.Circle(location=[row["lat"], row["lon"]], radius=radius, popup=row["city"],
                                     color=color, fill=True, fill_color=color).add_to(map)
 
-            # region data available
             elif (row["region"] != "Unknown") & (row["city"] == "Unknown"):
                 if row["size"] == "Not Found":
                     radius=660000

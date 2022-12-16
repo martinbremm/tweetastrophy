@@ -94,7 +94,7 @@ elif prediction == 'The tweet is Non Disaster Tweet':
 if txt == "elon musk":
     st.image("tweetastrophy/elon_meme.png")
 
-elif prediction:
+elif st.session_state['pred']:
     # adding map based on the previous texts the person has entered
     create_map(st.session_state['txt'], st.session_state['pred'])
 
