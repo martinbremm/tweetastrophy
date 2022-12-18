@@ -64,7 +64,14 @@ with st.sidebar:
         #st.markdown('<p class="mid-font"> Enter your tweet here 👇🏼 !!</p>', unsafe_allow_html=True)
         st.info('Enter your tweet here 👇🏼 !!')
         txt = st.text_area('', placeholder='. . .', on_change=updating_session_state)
-        st.button('Predict')
+
+         # creating prediction value
+    prediction = get_prediction(txt)
+
+    # preprocessing text
+    txt = text_preprocessing(txt)
+
+    st.button('Predict', is_click = updating_session_state(txt, prediction))
 
 # creating prediction container
 prediction_container = st.container()
@@ -77,11 +84,7 @@ def local_css(file_name):
 
 local_css("tweetastrophy/config.toml")
 
- # creating prediction value
-prediction = get_prediction(txt)
 
-# preprocessing text
-txt = text_preprocessing(txt)
 
 
 # prediction output
