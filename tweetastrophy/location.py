@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+import streamlit as st
 
 import spacy
 try:
@@ -88,6 +89,7 @@ def get_area(city):
         return 'NotFound'
 
 
+@st.experimental_memo(suppress_st_warning=True)
 def create_location(text_df):
 
     df_dict = text_df.to_dict("records")
