@@ -18,81 +18,79 @@ def create_map(text_archive, prediction):
     if not text_archive:
         return  st_folium(map, width=1200, height=600, returned_objects=[])
 
-    elif type(text_archive) == list:
+    else:
         if text_archive[-1] == "":
             return  st_folium(map, width=1200, height=600, returned_objects=[])
 
-    else:
-        st.write("Start")
-        text_df = pd.DataFrame.from_dict(data={"text": text_archive})
+        else:
+            st.write("Start")
+            text_df = pd.DataFrame.from_dict(data={"text": text_archive})
 
-        locations_df = create_location(text_df)
+            locations_df = create_location(text_df)
 
-        df = pd.concat([text_df, locations_df], axis=1)
+            df = pd.concat([text_df, locations_df], axis=1)
 
-        # creating basic map in folium
-        map = folium.Map(location=[locations_df.lat.mean(), locations_df.lon.mean()],
+            # creating basic map in folium
+            map = folium.Map(location=[locations_df.lat.mean(), locations_df.lon.mean()],
+                            tiles="cartodbpositron",
+                            zoom_start=5, min_zoom=3, control_scale=True)
+
+            # mapping circles to df in DataFrame
+            df_dict = df.to_dict("records")
+
+            st.write(df_dict)
+
+            # looping over combined df
+            for idx, row in enumerate(df_dict):
+
+                # determining the color of the circle
+                if prediction[idx] == "The tweet is Disaster Tweet":
+                    color = "#EE4B2B" # red
+                elif prediction[idx] == "The tweet is Non Disaster Tweet":
+                    color = "#008000" # green
+
+                # checking for rows without coordinates
+                if row["lat"] == 0.0 or row["lon"] == 0.0:
+                    map = folium.Map(location=[0,0],
                         tiles="cartodbpositron",
-                        zoom_start=5, min_zoom=3, control_scale=True)
+                        zoom_start=3, control_scale=True)
 
-        # mapping circles to df in DataFrame
-        df_dict = df.to_dict("records")
+                    continue
+                    #return  st_folium(map, width=1200, height=600, returned_objects=[])
 
-        st.write(df_dict)
+                # city data available
+                elif row["city"] != "Unknown":
+                    if row["size"] == "Not Found":
+                        radius=10000
+                    else:
+                        radius=row["size"]
 
-        # looping over combined df
-        for idx, row in enumerate(df_dict):
+                    folium.Circle(location=[row["lat"], row["lon"]], radius=radius, popup=row["city"],
+                                        color=color, fill=True, fill_color=color).add_to(map)
 
-            # determining the color of the circle
-            if prediction[idx] == "The tweet is Disaster Tweet":
-                color = "#EE4B2B" # red
-            elif prediction[idx] == "The tweet is Non Disaster Tweet":
-                color = "#008000" # green
+                elif (row["region"] != "Unknown") & (row["city"] == "Unknown"):
+                    if row["size"] == "Not Found":
+                        radius=660000
+                    else:
+                        radius=row["size"]
 
-            # checking for rows without coordinates
-            if row["lat"] == 0.0 or row["lon"] == 0.0:
-                map = folium.Map(location=[0,0],
-                    tiles="cartodbpositron",
-                    zoom_start=3, control_scale=True)
+                    folium.Circle(location=[row["lat"], row["lon"]], radius=radius, popup=row["region"],
+                                        color=color, fill=True, fill_color=color).add_to(map)
 
-                continue
-                #return  st_folium(map, width=1200, height=600, returned_objects=[])
+                # country data available
+                elif (row["country"] != "Unknown") & (row["region"] == "Unknown") & (row["city"] == "Unknown"):
+                    if row["size"] == "Not Found":
+                        radius=660000
+                    else:
+                        radius=row["size"]
 
-            # city data available
-            elif row["city"] != "Unknown":
-                if row["size"] == "Not Found":
-                    radius=10000
-                else:
-                    radius=row["size"]
+                    folium.Circle(location=[row["lat"], row["lon"]], radius=660000, popup=row["country"],
+                                        color=color, fill=True, fill_color=color).add_to(map)
 
-                folium.Circle(location=[row["lat"], row["lon"]], radius=radius, popup=row["city"],
-                                    color=color, fill=True, fill_color=color).add_to(map)
+            # adding automatic zoom to last df
+            sw = locations_df[['lat', 'lon']].min().values.tolist()
+            ne = locations_df[['lat', 'lon']].max().values.tolist()
 
-            elif (row["region"] != "Unknown") & (row["city"] == "Unknown"):
-                if row["size"] == "Not Found":
-                    radius=660000
-                else:
-                    radius=row["size"]
+            map.fit_bounds([sw, ne], padding=(1,1), max_zoom=8)
 
-                folium.Circle(location=[row["lat"], row["lon"]], radius=radius, popup=row["region"],
-                                    color=color, fill=True, fill_color=color).add_to(map)
-
-            # country data available
-            elif (row["country"] != "Unknown") & (row["region"] == "Unknown") & (row["city"] == "Unknown"):
-                if row["size"] == "Not Found":
-                    radius=660000
-                else:
-                    radius=row["size"]
-
-                folium.Circle(location=[row["lat"], row["lon"]], radius=660000, popup=row["country"],
-                                    color=color, fill=True, fill_color=color).add_to(map)
-
-        # adding automatic zoom to last df
-        sw = locations_df[['lat', 'lon']].min().values.tolist()
-        ne = locations_df[['lat', 'lon']].max().values.tolist()
-
-        map.fit_bounds([sw, ne], padding=(1,1), max_zoom=8)
-
-        st.write("Done")
-
-        return st_folium(map, width=1200, height=1200)
+            return st_folium(map, width=1200, height=1200)
