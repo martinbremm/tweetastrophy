@@ -115,3 +115,5 @@ def mapping_app():
 
     # clearing streamlit cache
     #create_map.clear()
+
+mapping_app()
