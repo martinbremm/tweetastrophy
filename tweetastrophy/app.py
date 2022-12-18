@@ -21,7 +21,6 @@ def updating_session_state(txt, prediction):
     st.session_state['txt'].append(txt)
     st.session_state['pred'].append(prediction)
 
-    return st.session_state
 
 # frontend style descriptors
 hide_menu = """
@@ -73,7 +72,7 @@ with st.sidebar:
     # preprocessing text
     txt = text_preprocessing(txt)
 
-    st.session_state = st.button('Predict', on_click = updating_session_state(txt, prediction))
+    st.button('Predict', on_click = updating_session_state(txt, prediction))
 
 # creating prediction container
 prediction_container = st.container()
