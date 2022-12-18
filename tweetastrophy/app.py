@@ -74,7 +74,6 @@ def local_css(file_name):
 
 local_css("tweetastrophy/config.toml")
 
-@st.experimental_memo(suppress_st_warning=True)
 def mapping_app(txt, prediction):
     # preprocessing text
     txt = text_preprocessing(txt)
