@@ -36,7 +36,7 @@ def extract_location(text):
     # alternative country data
     if place_entity.country_cities:
         dic.update({'country': list(place_entity.country_cities.keys())[0]})
-    else:
+    elif place_entity.country_regions:
         dic.update({'country': list(place_entity.country_regions.keys())[0]})
 
     for k, v in dic.items():
