@@ -81,20 +81,14 @@ txt = text_preprocessing(txt)
 st.session_state['txt'].append(txt)
 st.session_state['pred'].append(prediction)
 
-st.write(st.session_state['txt'])
-st.write(st.session_state['pred'])
-
-
 # prediction output
 if prediction == 'The tweet is Disaster Tweet':
     with col1:
-        st.markdown('<p class="big-font"> Tweet is a disaster &#9888;&#65039; </p>', unsafe_allow_html=True)
-    create_map(st.session_state['txt'], st.session_state['pred'])
-
+        st.markdown('<p class="big-font"> Tweet refers to real disaster &#9888;&#65039; </p>', unsafe_allow_html=True)
 
 elif prediction == 'The tweet is Non Disaster Tweet':
     with col1:
-        st.markdown('<p class="big-font"> Tweet is not a disaster &#x2705;</p>', unsafe_allow_html=True)
+        st.markdown('<p class="big-font"> Tweet does not refer to a disaster &#x2705;</p>', unsafe_allow_html=True)
 
 # map creation
 if txt == "elon musk":
