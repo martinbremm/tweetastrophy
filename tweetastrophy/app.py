@@ -102,12 +102,8 @@ if txt == "elon musk":
 #else:
     st.markdown('<p class="big-font">Waiting for your tweet.. &#128564; </p>', unsafe_allow_html=True)
 
-@st.experimental_memo(suppress_st_warning=True)
-def mapping(session_state):
-    map = create_map(session_state['txt'], session_state['pred'])
-    return map
+create_map(st.session_state['txt'], st.session_state['pred'])
 
-mapping(st.session_state)
 
 
 # clearing invalid entries from session state
