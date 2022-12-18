@@ -74,46 +74,41 @@ def local_css(file_name):
 
 local_css("tweetastrophy/config.toml")
 
-@st.experimental_memo(suppress_st_warning=True)
-def mapping_app(txt, prediction):
-    # preprocessing text
-    txt = text_preprocessing(txt)
 
-    # creating text archive of all the txts
-    st.session_state['txt'].append(txt)
-    st.session_state['pred'].append(prediction)
+# preprocessing text
+txt = text_preprocessing(txt)
 
-    # prediction output
-    if prediction == 'The tweet is Disaster Tweet':
-        with col1:
-            st.markdown('<p class="big-font"> Tweet refers to real disaster &#9888;&#65039; </p>', unsafe_allow_html=True)
+# creating text archive of all the txts
+st.session_state['txt'].append(txt)
+st.session_state['pred'].append(prediction)
 
-    elif prediction == 'The tweet is Non Disaster Tweet':
-        with col1:
-            st.markdown('<p class="big-font"> Tweet does not refer to a disaster &#x2705;</p>', unsafe_allow_html=True)
+# prediction output
+if prediction == 'The tweet is Disaster Tweet':
+    with col1:
+        st.markdown('<p class="big-font"> Tweet refers to real disaster &#9888;&#65039; </p>', unsafe_allow_html=True)
 
-    st.write(st.session_state)
+elif prediction == 'The tweet is Non Disaster Tweet':
+    with col1:
+        st.markdown('<p class="big-font"> Tweet does not refer to a disaster &#x2705;</p>', unsafe_allow_html=True)
 
-
-    # map creation
-    if txt == "elon musk":
-        st.image("tweetastrophy/elon_meme.png")
-
-    #elif st.session_state['pred']:
-        # adding map based on the previous texts the person has entered
-        #create_map(st.session_state['txt'], st.session_state['pred'])
-
-    #else:
-        st.markdown('<p class="big-font">Waiting for your tweet.. &#128564; </p>', unsafe_allow_html=True)
-        #create_map(st.session_state['txt'], st.session_state['pred'])
+st.write(st.session_state)
 
 
-    # clearing invalid entries from session state
-    if "" in st.session_state['txt']:
-        st.session_state['txt'].remove("")
-    if "" in st.session_state['pred']:
-        st.session_state['pred'].remove("")
+# map creation
+if txt == "elon musk":
+    st.image("tweetastrophy/elon_meme.png")
+
+#elif st.session_state['pred']:
+    # adding map based on the previous texts the person has entered
+    #create_map(st.session_state['txt'], st.session_state['pred'])
+
+#else:
+    st.markdown('<p class="big-font">Waiting for your tweet.. &#128564; </p>', unsafe_allow_html=True)
+    #create_map(st.session_state['txt'], st.session_state['pred'])
 
 
-
-mapping_app(txt, prediction)
+# clearing invalid entries from session state
+if "" in st.session_state['txt']:
+    st.session_state['txt'].remove("")
+if "" in st.session_state['pred']:
+    st.session_state['pred'].remove("")
