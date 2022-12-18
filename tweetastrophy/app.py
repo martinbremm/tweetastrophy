@@ -8,7 +8,6 @@ from preprocessing import text_preprocessing
 # configuring streamlit layout
 st.set_page_config(page_title='Tweetastrophy', page_icon=':tada:', layout='wide')
 
-
 # initializing session state
 if 'txt' not in st.session_state:
     st.session_state['txt'] = []
@@ -73,6 +72,8 @@ with st.sidebar:
     txt = text_preprocessing(txt)
 
     st.button('Predict', on_click = updating_session_state(txt, prediction))
+
+    st.write(st.session_state)
 
 # creating prediction container
 prediction_container = st.container()
