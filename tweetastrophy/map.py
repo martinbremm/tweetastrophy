@@ -15,15 +15,18 @@ def create_map(text_archive, prediction):
                     tiles="cartodbpositron",
                     zoom_start=3, control_scale=True)
 
+    # no input given
     if not text_archive:
         return  st_folium(map, width=1200, height=600, returned_objects=[])
 
+    # input given
     else:
+        # last input was empty
         if text_archive[-1] == "":
             return  st_folium(map, width=1200, height=600, returned_objects=[])
 
+        # last input was meaningful
         else:
-            st.write("Start")
             text_df = pd.DataFrame.from_dict(data={"text": text_archive})
 
             locations_df = create_location(text_df)
@@ -37,8 +40,6 @@ def create_map(text_archive, prediction):
 
             # mapping circles to df in DataFrame
             df_dict = df.to_dict("records")
-
-            st.write(df_dict)
 
             # looping over combined df
             for idx, row in enumerate(df_dict):
