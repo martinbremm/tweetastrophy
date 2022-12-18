@@ -8,8 +8,6 @@ from preprocessing import text_preprocessing
 # configuring streamlit layout
 st.set_page_config(page_title='Tweetastrophy', page_icon=':tada:', layout='wide')
 
-st.write(st.session_state)
-
 # initializing session state
 if 'txt' not in st.session_state:
     st.session_state['txt'] = []
@@ -21,7 +19,6 @@ def updating_session_state(txt, prediction):
     # creating text archive of all the txts
     st.session_state['txt'].append(txt)
     st.session_state['pred'].append(prediction)
-
 
 # frontend style descriptors
 hide_menu = """
@@ -65,7 +62,7 @@ with st.sidebar:
     with st.container() :
         #st.markdown('<p class="mid-font"> Enter your tweet here 👇🏼 !!</p>', unsafe_allow_html=True)
         st.info('Enter your tweet here 👇🏼 !!')
-        txt = st.text_area('', placeholder='. . .', on_change=updating_session_state)
+        txt = st.text_area('', placeholder='. . .')
 
          # creating prediction value
     prediction = get_prediction(txt)
@@ -73,9 +70,8 @@ with st.sidebar:
     # preprocessing text
     txt = text_preprocessing(txt)
 
-    st.button('Predict', on_click = updating_session_state, args=(txt, prediction, ))
+    st.button('Predict', on_click = updating_session_state, args=(txt, prediction))
 
-    st.write(st.session_state)
 
 # creating prediction container
 prediction_container = st.container()
@@ -87,9 +83,6 @@ def local_css(file_name):
         st.markdown(hide_menu, unsafe_allow_html=True)
 
 local_css("tweetastrophy/config.toml")
-
-
-
 
 # prediction output
 if prediction == 'The tweet is Disaster Tweet':
@@ -104,14 +97,12 @@ elif prediction == 'The tweet is Non Disaster Tweet':
 if txt == "elon musk":
     st.image("tweetastrophy/elon_meme.png")
 
-#elif st.session_state['pred']:
+elif st.session_state['pred']:
     # adding map based on the previous texts the person has entered
-    #create_map(st.session_state['txt'], st.session_state['pred'])
+    create_map(st.session_state['txt'], st.session_state['pred'])
 
-#else:
-    #st.markdown('<p class="big-font">Waiting for your tweet.. &#128564; </p>', unsafe_allow_html=True)
-
-create_map(st.session_state['txt'], st.session_state['pred'])
+else:
+    st.markdown('<p class="big-font">Waiting for your tweet.. &#128564; </p>', unsafe_allow_html=True)
 
 
 
