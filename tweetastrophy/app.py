@@ -73,7 +73,7 @@ with st.sidebar:
     # preprocessing text
     txt = text_preprocessing(txt)
 
-    st.button('Predict', on_click = updating_session_state, args=[txt, prediction])
+    st.button('Predict', on_click = updating_session_state, args=(txt, prediction, ))
 
     st.write(st.session_state)
 
