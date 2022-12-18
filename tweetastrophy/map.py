@@ -56,8 +56,7 @@ def create_map(text_archive, prediction):
                         tiles="cartodbpositron",
                         zoom_start=3, control_scale=True)
 
-                    continue
-                    #return  st_folium(map, width=1200, height=600, returned_objects=[])
+                    return  st_folium(map, width=1200, height=600, returned_objects=[])
 
                 # city data available
                 elif row["city"] != "Unknown":
@@ -94,4 +93,4 @@ def create_map(text_archive, prediction):
 
             map.fit_bounds([sw, ne], padding=(1,1), max_zoom=8)
 
-            return map
+            return st_folium(map, width=1200, height=1200)

@@ -96,14 +96,12 @@ if txt == "elon musk":
 
 elif st.session_state['pred']:
     # adding map based on the previous texts the person has entered
-    map = create_map(st.session_state['txt'], st.session_state['pred'])
-    st_folium(map, width=1200, height=1200)
+    create_map(st.session_state['txt'], st.session_state['pred'])
 
 else:
     st.markdown('<p class="big-font">Waiting for your tweet.. &#128564; </p>', unsafe_allow_html=True)
 
-    map = create_map(st.session_state['txt'], st.session_state['pred'])
-    st_folium(map, width=1200, height=1200)
+    create_map(st.session_state['txt'], st.session_state['pred'])
 
 
 # clearing invalid entries from session state
