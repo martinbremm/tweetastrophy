@@ -15,6 +15,12 @@ if 'txt' not in st.session_state:
 if 'pred' not in st.session_state:
     st.session_state['pred'] = []
 
+# function to update session state
+def updating_session_state(txt, prediction):
+    # creating text archive of all the txts
+    st.session_state['txt'].append(txt)
+    st.session_state['pred'].append(prediction)
+
 # frontend style descriptors
 hide_menu = """
 <style>
@@ -57,15 +63,12 @@ with st.sidebar:
     with st.container() :
         #st.markdown('<p class="mid-font"> Enter your tweet here 👇🏼 !!</p>', unsafe_allow_html=True)
         st.info('Enter your tweet here 👇🏼 !!')
-        txt = st.text_area('', placeholder='. . .')
+        txt = st.text_area('', placeholder='. . .', on_change=updating_session_state)
         st.button('Predict')
 
 # creating prediction container
 prediction_container = st.container()
 col1, col2 = st.columns([8,17])
-
-# creating prediction value
-prediction = get_prediction(txt)
 
 # css config
 def local_css(file_name):
@@ -74,13 +77,12 @@ def local_css(file_name):
 
 local_css("tweetastrophy/config.toml")
 
+ # creating prediction value
+prediction = get_prediction(txt)
 
 # preprocessing text
 txt = text_preprocessing(txt)
 
-# creating text archive of all the txts
-st.session_state['txt'].append(txt)
-st.session_state['pred'].append(prediction)
 
 # prediction output
 if prediction == 'The tweet is Disaster Tweet':
