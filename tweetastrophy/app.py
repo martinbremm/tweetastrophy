@@ -74,6 +74,7 @@ def local_css(file_name):
 
 local_css("tweetastrophy/config.toml")
 
+@st.experimental_memo(suppress_st_warning=True)
 def mapping_app(txt, prediction):
     # preprocessing text
     txt = text_preprocessing(txt)
@@ -98,13 +99,13 @@ def mapping_app(txt, prediction):
     if txt == "elon musk":
         st.image("tweetastrophy/elon_meme.png")
 
-    elif st.session_state['pred']:
+    #elif st.session_state['pred']:
         # adding map based on the previous texts the person has entered
-        create_map(st.session_state['txt'], st.session_state['pred'])
+        #create_map(st.session_state['txt'], st.session_state['pred'])
 
-    else:
+    #else:
         st.markdown('<p class="big-font">Waiting for your tweet.. &#128564; </p>', unsafe_allow_html=True)
-        create_map(st.session_state['txt'], st.session_state['pred'])
+        #create_map(st.session_state['txt'], st.session_state['pred'])
 
 
     # clearing invalid entries from session state
@@ -113,7 +114,6 @@ def mapping_app(txt, prediction):
     if "" in st.session_state['pred']:
         st.session_state['pred'].remove("")
 
-    # clearing streamlit cache
-    #create_map.clear()
+
 
 mapping_app(txt, prediction)
