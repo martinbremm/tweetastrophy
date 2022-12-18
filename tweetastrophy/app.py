@@ -5,10 +5,11 @@ from predict import get_prediction
 from map import create_map
 from preprocessing import text_preprocessing
 
+# configuring streamlit layout
+st.set_page_config(page_title='Tweetastrophy', page_icon=':tada:', layout='wide')
+
 @st.experimental_memo(suppress_st_warning=True)
 def mapping_app():
-    # configuring streamlit layout
-    st.set_page_config(page_title='Tweetastrophy', page_icon=':tada:', layout='wide')
 
     # initializing session state
     if 'txt' not in st.session_state:
