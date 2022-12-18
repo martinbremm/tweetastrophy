@@ -91,9 +91,6 @@ elif prediction == 'The tweet is Non Disaster Tweet':
     with col1:
         st.markdown('<p class="big-font"> Tweet does not refer to a disaster &#x2705;</p>', unsafe_allow_html=True)
 
-st.write(st.session_state)
-
-
 # map creation
 if txt == "elon musk":
     st.image("tweetastrophy/elon_meme.png")
@@ -107,6 +104,7 @@ if txt == "elon musk":
 
 @st.experimental_memo(suppress_st_warning=True)
 def mapping():
+    st.write(st.session_state)
     create_map(st.session_state['txt'], st.session_state['pred'])
 
 mapping()
