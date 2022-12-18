@@ -8,6 +8,8 @@ from preprocessing import text_preprocessing
 # configuring streamlit layout
 st.set_page_config(page_title='Tweetastrophy', page_icon=':tada:', layout='wide')
 
+st.write(st.session_state)
+
 # initializing session state
 if 'txt' not in st.session_state:
     st.session_state['txt'] = []
