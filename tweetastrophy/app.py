@@ -10,15 +10,15 @@ st.set_page_config(page_title='Tweetastrophy', page_icon=':tada:', layout='wide'
 
 # initializing session state
 if 'txt' not in st.session_state:
-    st.session_state['txt'] = []
+    st.session_state['texts'] = []
 if 'pred' not in st.session_state:
-    st.session_state['pred'] = []
+    st.session_state['predictions'] = []
 
 # function to update session state
-def updating_session_state(txt, prediction):
+def updating_session_state():
     # creating text archive of all the txts
-    st.session_state['txt'].append(txt)
-    st.session_state['pred'].append(prediction)
+    st.session_state['texts'].append(st.session_state['txt'])
+    st.session_state['predictions'].append(st.session_state['pred'])
 
 # frontend style descriptors
 hide_menu = """
@@ -61,17 +61,16 @@ with st.sidebar:
     st.text("")
     with st.container() :
         st.info('Enter your tweet here 👇🏼 !!')
-        txt = st.text_area(label='', placeholder='. . .')
+        txt = st.text_area(label='', placeholder='. . .', key='txt')
 
     # creating prediction value
     prediction = get_prediction(txt)
-    st.write(prediction)
+    st.session_state['pred'] = prediction
 
     # preprocessing text
     txt = text_preprocessing(txt)
-    st.write(txt)
 
-    st.button(label='Predict', on_click = updating_session_state, args=(txt, prediction))
+    st.button(label='Predict', on_click = updating_session_state)
 
 
 # creating prediction container
