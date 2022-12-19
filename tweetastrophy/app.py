@@ -63,11 +63,13 @@ with st.sidebar:
         st.info('Enter your tweet here 👇🏼 !!')
         txt = st.text_area(label='', placeholder='. . .')
 
-         # creating prediction value
-        prediction = get_prediction(txt)
+    # creating prediction value
+    prediction = get_prediction(txt)
+    st.write(prediction)
 
-        # preprocessing text
-        txt = text_preprocessing(txt)
+    # preprocessing text
+    txt = text_preprocessing(txt)
+    st.write(txt)
 
     st.button(label='Predict', on_click = updating_session_state, args=(txt, prediction))
 
