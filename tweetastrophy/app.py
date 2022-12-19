@@ -9,9 +9,9 @@ from preprocessing import text_preprocessing
 st.set_page_config(page_title='Tweetastrophy', page_icon=':tada:', layout='wide')
 
 # initializing session state
-if 'txt' not in st.session_state:
+if 'texts' not in st.session_state:
     st.session_state['texts'] = []
-if 'pred' not in st.session_state:
+if 'predictions' not in st.session_state:
     st.session_state['predictions'] = []
 
 # function to update session state
