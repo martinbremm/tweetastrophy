@@ -68,7 +68,7 @@ with st.sidebar:
 
     st.write(st.session_state)
 
-    st.session_state['pred'] = st.button(label='Predict', on_click = get_prediction, args=(txt, ), key='pred')
+    st.button(label='Predict', on_click = get_prediction, args=(txt, ), key='pred')
 
     st.session_state['texts'].append(st.session_state['txt'])
     st.session_state['predictions'].append(st.session_state['pred'])
