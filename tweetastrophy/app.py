@@ -19,7 +19,7 @@ def updating_session_state():
     # creating text archive of all the txts
     if st.session_state['txt'] != "":
         st.session_state['texts'].append(text_preprocessing(st.session_state['txt']))
-        st.session_state['predictions'].append(get_prediction(st.session_state['txt'])
+        st.session_state['predictions'].append(get_prediction(st.session_state['txt']))
 
 
 # frontend style descriptors
