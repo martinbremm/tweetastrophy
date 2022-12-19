@@ -61,15 +61,13 @@ with st.sidebar:
     st.text("")
     with st.container() :
         st.info('Enter your tweet here 👇🏼 !!')
-        txt = st.text_area(label='', placeholder='. . .')
-
-        st.write(txt)
+        txt = st.text_area(label='', placeholder='. . .', key='txt')
 
          # creating prediction value
-    prediction = get_prediction(txt)
+        prediction = get_prediction(txt)
 
-    # preprocessing text
-    txt = text_preprocessing(txt)
+        # preprocessing text
+        txt = text_preprocessing(txt)
 
     st.button(label='Predict', on_click = updating_session_state, args=(txt, prediction))
 
