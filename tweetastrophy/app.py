@@ -18,8 +18,9 @@ if 'pred' not in st.session_state:
 def updating_session_state():
     # creating text archive of all the txts
     if st.session_state['txt'] != "":
-        st.session_state['texts'].append(st.session_state['txt'])
-        st.session_state['predictions'].append(st.session_state['pred'])
+        st.session_state['texts'].append(text_preprocessing(st.session_state['txt']))
+        st.session_state['predictions'].append(get_prediction(st.session_state['txt'])
+
 
 # frontend style descriptors
 hide_menu = """
@@ -66,7 +67,6 @@ with st.sidebar:
 
     # creating prediction value
     prediction = get_prediction(txt)
-    st.session_state['pred'] = prediction
 
     # preprocessing text
     txt = text_preprocessing(txt)
