@@ -19,7 +19,7 @@ def updating_session_state():
     # creating text archive of all the txts
     if st.session_state['txt'] != "":
         st.session_state['texts'].append(st.session_state['txt'])
-        st.session_state['predictions'].append(st.session_state['pred'])
+        st.session_state['predictions'].append(st.session_state['pred1'])
 
 # frontend style descriptors
 hide_menu = """
@@ -73,7 +73,7 @@ with st.sidebar:
 
     st.write(st.session_state)
 
-    st.button(label='Predict', on_click = updating_session_state)
+    st.button(label='Predict', on_click = updating_session_state, key='pred1')
 
     st.write(st.session_state)
 
