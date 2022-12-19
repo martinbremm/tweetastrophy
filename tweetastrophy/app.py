@@ -72,11 +72,11 @@ with st.sidebar:
     # preprocessing text
     txt = text_preprocessing(txt)
 
-    st.write(st.session_state)
+    #st.write(st.session_state)
 
     st.button(label='Predict', on_click = updating_session_state)
 
-    st.write(st.session_state)
+    #st.write(st.session_state)
 
 # creating prediction container
 prediction_container = st.container()
