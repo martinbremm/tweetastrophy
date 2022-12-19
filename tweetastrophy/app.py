@@ -70,8 +70,11 @@ with st.sidebar:
     # preprocessing text
     txt = text_preprocessing(txt)
 
+    st.write(st.session_state)
+
     st.button(label='Predict', on_click = updating_session_state)
 
+    st.write(st.session_state)
 
 # creating prediction container
 prediction_container = st.container()
@@ -95,17 +98,14 @@ elif prediction == 'The tweet is Non Disaster Tweet':
 
 
 
-st.write(st.session_state['txt'])
-st.write(st.session_state['pred'])
-
 
 # map creation
 if txt == "elon musk":
     st.image("tweetastrophy/elon_meme.png")
 
-elif st.session_state['pred']:
+elif st.session_state['predictions']:
     # adding map based on the previous texts the person has entered
-    create_map(st.session_state['txt'], st.session_state['pred'])
+    create_map(st.session_state['texts'], st.session_state['predictions'])
 
 else:
     st.markdown('<p class="big-font">Waiting for your tweet.. &#128564; </p>', unsafe_allow_html=True)
@@ -113,7 +113,7 @@ else:
 
 
 # clearing invalid entries from session state
-if "" in st.session_state['txt']:
-    st.session_state['txt'].remove("")
-if "" in st.session_state['pred']:
-    st.session_state['pred'].remove("")
+if "" in st.session_state['texts']:
+    st.session_state['texts'].remove("")
+if "" in st.session_state['predictions']:
+    st.session_state['predictions'].remove("")
