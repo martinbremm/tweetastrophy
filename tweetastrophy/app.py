@@ -61,7 +61,7 @@ with st.sidebar:
     st.text("")
     with st.container() :
         st.info('Enter your tweet here 👇🏼 !!')
-        txt = st.text_area(label='', placeholder='. . .', key='txt')
+        txt = st.text_area(label='', placeholder='. . .')
 
          # creating prediction value
         prediction = get_prediction(txt)
