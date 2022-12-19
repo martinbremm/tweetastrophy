@@ -7,7 +7,7 @@ from preprocessing import text_preprocessing
 
 from location import create_location
 
-@st.experimental_memo(suppress_st_warning=True, show_spinner=False)
+@st.cache(func=st_folium, allow_output_mutation=True)
 def create_map(text_archive, prediction):
 
     # initialize empty map if no input or no previous input
