@@ -17,8 +17,9 @@ if 'pred' not in st.session_state:
 # function to update session state
 def updating_session_state():
     # creating text archive of all the txts
-    st.session_state['texts'].append(st.session_state['txt'])
-    st.session_state['predictions'].append(st.session_state['pred'])
+    if st.session_state['txt'] != "":
+        st.session_state['texts'].append(st.session_state['txt'])
+        st.session_state['predictions'].append(st.session_state['pred'])
 
 # frontend style descriptors
 hide_menu = """
