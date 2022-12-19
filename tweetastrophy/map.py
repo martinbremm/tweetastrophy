@@ -86,4 +86,4 @@ def create_map(text_archive, prediction):
 
             map.fit_bounds([sw, ne], padding=(1,1), max_zoom=8)
 
-            return st_folium(map, width=1200, height=1200)
+            return st_folium(map, width=1200, height=1200, key="map")
