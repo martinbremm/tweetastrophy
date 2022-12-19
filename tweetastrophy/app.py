@@ -60,9 +60,8 @@ with st.sidebar:
 
     st.text("")
     with st.container() :
-        #st.markdown('<p class="mid-font"> Enter your tweet here 👇🏼 !!</p>', unsafe_allow_html=True)
         st.info('Enter your tweet here 👇🏼 !!')
-        txt = st.text_area('', placeholder='. . .')
+        txt = st.text_area(label='', placeholder='. . .')
 
          # creating prediction value
     prediction = get_prediction(txt)
@@ -70,7 +69,7 @@ with st.sidebar:
     # preprocessing text
     txt = text_preprocessing(txt)
 
-    st.button('Predict', on_click = updating_session_state, args=(txt, prediction))
+    st.button(label='Predict', on_click = updating_session_state, args=(txt, prediction))
 
 
 # creating prediction container
@@ -92,6 +91,12 @@ if prediction == 'The tweet is Disaster Tweet':
 elif prediction == 'The tweet is Non Disaster Tweet':
     with col1:
         st.markdown('<p class="big-font"> Tweet does not refer to a disaster &#x2705;</p>', unsafe_allow_html=True)
+
+
+
+st.write(st.session_state['txt'])
+st.write(st.session_state['pred'])
+
 
 # map creation
 if txt == "elon musk":
