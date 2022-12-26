@@ -1,4 +1,4 @@
-# About the project
+# Tweetastrophy
 Tweetastrophy is a project which classifies tweets accordin to whether they imply a disaster or not. Find the current version of our web-app [here](https://tweetastrophy.streamlit.app/).
 
 The dataset used for training the underlying machine learning model is obtained from Kaggle competition ["Natural Language Processing with Disaster Tweets"](https://www.kaggle.com/competitions/nlp-getting-started).
